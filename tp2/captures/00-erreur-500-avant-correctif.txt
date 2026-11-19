@@ -1,0 +1,5 @@
+
+java.net.UnknownHostException: Failed to resolve 'ossamaelm06.mshome.net' [A(1)]
+	at io.netty.resolver.dns.DnsResolveContext.finishResolve(DnsResolveContext.java:1139) ~[netty-resolver-dns-4.2.17.Final.jar:4.2.17.Final]
+	Suppressed: The stacktrace has been enhanced by Reactor, refer to additional information below: 
+2026-11-19T21:06:15.555+01:00 ERROR 24020 --- [api-gateway] [ctor-http-nio-2] b.w.a.e.AbstractErrorWebExceptionHandler : [1f09a738-1]  500 Server Error for HTTP GET "/api/customers"

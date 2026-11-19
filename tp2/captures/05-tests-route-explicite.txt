@@ -1,0 +1,66 @@
+
+===== 5. Registre Eureka - attendu 200 =====
+$ curl -s -i -H Accept: application/json http://localhost:8761/eureka/apps
+HTTP/1.1 200 
+Content-Type: application/json
+Content-Length: 1091
+Date: Thu, 19 Nov 2026 20:13:45 GMT
+
+{"applications":{"versions__delta":"1","apps__hashcode":"UP_1_","application":[{"name":"CUSTOMER-SERVICE","instance":[{"instanceId":"ossamaelm06.mshome.net:customer-service:8081","hostName":"172.21.176.1","app":"CUSTOMER-SERVICE","ipAddr":"172.21.176.1","status":"UP","overriddenStatus":"UNKNOWN","port":{"$":8081,"@enabled":"true"},"securePort":{"$":443,"@enabled":"false"},"countryId":1,"dataCenterInfo":{"@class":"com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo","name":"MyOwn"},"leaseInfo":{"renewalIntervalInSecs":30,"durationInSecs":90,"registrationTimestamp":1795119180276,"lastRenewalTimestamp":1795119180276,"evictionTimestamp":0,"serviceUpTimestamp":1795119180276},"metadata":{"management.port":"8081"},"homePageUrl":"http://172.21.176.1:8081/","statusPageUrl":"http://172.21.176.1:8081/actuator/info","healthCheckUrl":"http://172.21.176.1:8081/actuator/health","vipAddress":"customer-service","secureVipAddress":"customer-service","isCoordinatingDiscoveryServer":"false","lastUpdatedTimestamp":"1795119180276","lastDirtyTimestamp":"1795119180199","actionType":"ADDED"}]}]}}
+
+===== 6. CUSTOMER-SERVICE dans Eureka - attendu 200, status UP, port 8081 =====
+$ curl -s -i -H Accept: application/json http://localhost:8761/eureka/apps/CUSTOMER-SERVICE
+HTTP/1.1 200 
+Content-Type: application/json
+Content-Length: 1025
+Date: Thu, 19 Nov 2026 20:13:45 GMT
+
+{"application":{"name":"CUSTOMER-SERVICE","instance":[{"instanceId":"ossamaelm06.mshome.net:customer-service:8081","hostName":"172.21.176.1","app":"CUSTOMER-SERVICE","ipAddr":"172.21.176.1","status":"UP","overriddenStatus":"UNKNOWN","port":{"$":8081,"@enabled":"true"},"securePort":{"$":443,"@enabled":"false"},"countryId":1,"dataCenterInfo":{"@class":"com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo","name":"MyOwn"},"leaseInfo":{"renewalIntervalInSecs":30,"durationInSecs":90,"registrationTimestamp":1795119180276,"lastRenewalTimestamp":1795119180276,"evictionTimestamp":0,"serviceUpTimestamp":1795119180276},"metadata":{"management.port":"8081"},"homePageUrl":"http://172.21.176.1:8081/","statusPageUrl":"http://172.21.176.1:8081/actuator/info","healthCheckUrl":"http://172.21.176.1:8081/actuator/health","vipAddress":"customer-service","secureVipAddress":"customer-service","isCoordinatingDiscoveryServer":"false","lastUpdatedTimestamp":"1795119180276","lastDirtyTimestamp":"1795119180199","actionType":"ADDED"}]}}
+
+===== 8a. API-GATEWAY dans Eureka - attendu 200, status UP =====
+$ curl -s -o /dev/null -w HTTP %{http_code}\n -H Accept: application/json http://localhost:8761/eureka/apps/API-GATEWAY
+HTTP 200
+
+
+===== 8b. POST via gateway - attendu 201 + Location + X-Served-By =====
+$ curl -s -i -X POST http://localhost:8080/api/customers -H Content-Type: application/json -d {"firstName":"Yasmine","lastName":"El Amrani","email":"yasmine.tp2.1795119225@example.com"}
+HTTP/1.1 201 Created
+transfer-encoding: chunked
+Location: http://172.21.176.1:8081/api/customers/1
+Content-Type: application/json
+Date: Thu, 19 Nov 2026 20:13:45 GMT
+X-Served-By: api-gateway
+
+{"id":1,"firstName":"Yasmine","lastName":"El Amrani","email":"yasmine.tp2.1795119225@example.com","phone":null,"createdAt":"2026-11-19T20:13:45.749900800Z"}
+
+===== 8c. Liste via gateway et en direct - attendu 200 =====
+$ curl -s -i http://localhost:8080/api/customers
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 155
+Date: Thu, 19 Nov 2026 20:13:45 GMT
+X-Served-By: api-gateway
+
+[{"id":1,"firstName":"Yasmine","lastName":"El Amrani","email":"yasmine.tp2.1795119225@example.com","phone":null,"createdAt":"2026-11-19T20:13:45.749901Z"}]
+$ curl -s -i http://localhost:8081/api/customers
+HTTP/1.1 200 
+Content-Type: application/json
+Content-Length: 155
+Date: Thu, 19 Nov 2026 20:13:45 GMT
+
+[{"id":1,"firstName":"Yasmine","lastName":"El Amrani","email":"yasmine.tp2.1795119225@example.com","phone":null,"createdAt":"2026-11-19T20:13:45.749901Z"}]
+
+===== 8d. Routes Actuator - attendu uri lb://customer-service =====
+$ curl -s -i http://localhost:8080/actuator/gateway/routes
+HTTP/1.1 200 OK
+transfer-encoding: chunked
+Content-Type: application/json
+
+[{"predicate":"(RouteDefinitionRouteLocator$$Lambda/0x0000000087791668 && Paths: [/api/customers/**], match trailing slash: true)","route_id":"customer-service","filters":["[[AddResponseHeader name = 'X-Served-By', value = 'api-gateway', override = true], order = 1]"],"uri":"lb://customer-service","order":0}]
+
+===== Vérifications automatiques =====
+OK : CUSTOMER-SERVICE est UP dans Eureka
+OK : API-GATEWAY est UP dans Eureka
+OK : X-Served-By présent via 8080
+OK : la route utilise lb://customer-service
+Code retour : 0 

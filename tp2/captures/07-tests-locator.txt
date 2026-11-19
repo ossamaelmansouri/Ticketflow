@@ -1,0 +1,42 @@
+
+===== 10.2a. Route explicite /api/customers - attendu 200 + X-Served-By =====
+$ curl -s -i http://localhost:8080/api/customers
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 155
+Date: Thu, 19 Nov 2026 20:14:00 GMT
+X-Served-By: api-gateway
+
+[{"id":1,"firstName":"Yasmine","lastName":"El Amrani","email":"yasmine.tp2.1795119225@example.com","phone":null,"createdAt":"2026-11-19T20:13:45.749901Z"}]
+
+===== 10.2b. Route générée par le Locator /customer-service/api/customers - attendu 200, mêmes données =====
+$ curl -s -i http://localhost:8080/customer-service/api/customers
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 155
+Date: Thu, 19 Nov 2026 20:14:00 GMT
+
+[{"id":1,"firstName":"Yasmine","lastName":"El Amrani","email":"yasmine.tp2.1795119225@example.com","phone":null,"createdAt":"2026-11-19T20:13:45.749901Z"}]
+
+===== 10.2c. Mauvais chemin /customer-service/customers - attendu 404 (le service recevrait /customers) =====
+$ curl -s -i http://localhost:8080/customer-service/customers
+HTTP/1.1 404 Not Found
+transfer-encoding: chunked
+Content-Type: application/problem+json
+Date: Thu, 19 Nov 2026 20:14:00 GMT
+
+{"detail":"No static resource customers.","instance":"/customers","status":404,"title":"Not Found"}
+
+===== 10.2d. Routes Actuator - route explicite + route générée =====
+$ curl -s -i http://localhost:8080/actuator/gateway/routes
+HTTP/1.1 200 OK
+transfer-encoding: chunked
+Content-Type: application/json
+
+[{"predicate":"(RouteDefinitionRouteLocator$$Lambda/0x000000000c7b5ed0 && Paths: [/customer-service/**], match trailing slash: true)","metadata":{"management.port":"8081"},"route_id":"ReactiveCompositeDiscoveryClient_CUSTOMER-SERVICE","filters":["[[RewritePath /customer-service/?(?<remaining>.*) = '/${remaining}'], order = 1]"],"uri":"lb://CUSTOMER-SERVICE","order":0},{"predicate":"(RouteDefinitionRouteLocator$$Lambda/0x000000000c7b5ed0 && Paths: [/api/customers/**], match trailing slash: true)","route_id":"customer-service","filters":["[[AddResponseHeader name = 'X-Served-By', value = 'api-gateway', override = true], order = 1]"],"uri":"lb://customer-service","order":0}]
+
+===== Vérifications automatiques =====
+OK : la route du Locator répond 200
+OK : mêmes données sur les deux routes
+OK : route générée pour CUSTOMER-SERVICE visible dans Actuator
+Code retour : 0 

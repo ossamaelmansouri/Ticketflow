@@ -9,7 +9,7 @@ Chaque TP se trouve dans son propre dossier et contient le projet TicketFlow com
 | TP | Dossier | Sujet | État |
 |---|---|---|---|
 | TP1 | [`tp1/`](tp1/) | Spring Cloud Gateway : route statique vers customer-service | Terminé |
-| TP2 | `tp2/` | — | À venir |
+| TP2 | [`tp2/`](tp2/) | Eureka : discovery-server, route `lb://customer-service`, option Discovery Locator | Terminé |
 | TP3 | `tp3/` | — | À venir |
 | TP4 | `tp4/` | — | À venir |
 | TP5 | `tp5/` | — | À venir |
