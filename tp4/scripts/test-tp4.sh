@@ -26,7 +26,7 @@ nominal)
 
   step "Préparation : création et publication d'un événement sur event-service (8082)"
   show curl -s -i -X POST "$EVENT/api/events" -H "$json" \
-    -d '{"title":"Concert Gnaoua","description":"Soirée TP4","venue":"Casablanca","startsAt":"2027-03-20T20:00:00Z","price":150.00,"capacity":3}'
+    -d '{"title":"Concert Gnaoua","description":"Soiree TP4","venue":"Casablanca","startsAt":"2027-03-20T20:00:00Z","price":150.00,"capacity":3}'
   show curl -s -i -X POST "$EVENT/api/events/1/publish"
   show curl -s -i -X POST "$EVENT/api/events" -H "$json" \
     -d '{"title":"Brouillon","venue":"Rabat","startsAt":"2027-04-01T20:00:00Z","price":80.00,"capacity":50}'
