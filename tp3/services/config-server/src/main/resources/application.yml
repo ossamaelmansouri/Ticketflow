@@ -1,7 +1,8 @@
 # TP3 - Config Server (TicketFlow)
 # Auteur : Ossama Elmansouri
-# L'URL du dépôt est fournie par la variable d'environnement CONFIG_GIT_URI
-# (ex. https://github.com/ossamaelmansouri/ticketflow-config.git).
+# L'URL du dépôt est fournie par la variable d'environnement CONFIG_GIT_URI.
+# CONFIG_SEARCH_PATHS (optionnelle, vide par défaut) indique le sous-dossier
+# qui contient les fichiers quand ils ne sont pas à la racine du dépôt.
 server:
   port: 8888
 
@@ -17,6 +18,7 @@ spring:
           try-master-branch: false
           clone-on-start: true
           refresh-rate: 0
+          search-paths: ${CONFIG_SEARCH_PATHS:}
 
 management:
   endpoints:
