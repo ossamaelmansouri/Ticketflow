@@ -46,8 +46,12 @@ bg() {
     --topic $T --group $group $* --consumer-property client.id=$name \
     --property print.partition=true --property print.key=true > /tmp/$name.txt 2>&1"
 }
-# client[.]id : la ligne de commande de pkill elle-même ne correspond pas au motif
-stopbg()  { docker exec kafka sh -c "pkill -f 'client[.]id=$1\$\|client[.]id=$1 ' || true"; note "[$1] arrêté (Ctrl+C)"; }
+# Motif 'client[.]id=T1 ' : la ligne de commande de pkill (qui contient les crochets)
+# ne correspond pas elle-même au motif ; seul le consommateur visé est arrêté.
+stopbg()  {
+  docker exec kafka sh -c "pkill -f 'client[.]id=$1 ' || kill \$(ps -ef | grep 'client[.]id=$1 ' | awk '{print \$1}') ; sleep 2; echo \"[$1] restants : \$(ps -ef | grep -c 'client[.]id=$1 ')\"" 2>&1
+  note "[$1] arrêté (Ctrl+C)"; }
+stopall() { docker exec kafka sh -c "pkill -f 'tools[.]consumer[.]ConsoleConsumer' ; sleep 3; echo \"consommateurs restants : \$(ps -ef | grep -c 'tools[.]consumer[.]ConsoleConsumer')\"" 2>&1; }
 showbg()  { note "--- sortie du terminal $1 ---"; docker exec kafka sh -c "cat /tmp/$1.txt" >> "$out" 2>&1; echo >> "$out"; }
 CAP_ABS=$(cd "$CAP" && pwd)
 
@@ -184,7 +188,7 @@ for c in C1 C2 C3 C4; do bg $c $G; done
 sleep 15
 k "./kafka-consumer-groups.sh --bootstrap-server \$BS --describe --group $G --members"
 for c in C1 C2 C3 C4; do stopbg $c; done
-sleep 5
+stopall
 
 # --- 5. Rétention et configuration ---------------------------------------
 section 05-exercice5-retention-compaction.txt
@@ -213,14 +217,16 @@ note "(l'énoncé répète par erreur kafka:9092 dans cette seconde commande ; l
 note '$ docker run --rm --network kafka-tp apache/kafka:4.0.0 /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list'
 start=$(date +%s)
 timeout 90 docker run --rm --name tf-test-localhost --network kafka-tp apache/kafka:4.0.0 \
-  /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list 2>&1 | grep -v "^\s*at " | head -8 >> "$out"
+  /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list > /tmp/tp6-net.txt 2>&1
+head -2 /tmp/tp6-net.txt >> "$out"; note "[...]"; grep -a -E "Error|Timed out|TimeoutException" /tmp/tp6-net.txt | grep -v "^\s*at " | tail -2 >> "$out"
 note "(durée : $(( $(date +%s) - start )) s)"
 docker rm -f tf-test-localhost >/dev/null 2>&1
 step "2 bis) Listener EXTERNAL joint depuis le réseau Docker (kafka:9094) : connexion initiale OK, puis adresse annoncée localhost:9092 injoignable"
 note '$ docker run --rm --network kafka-tp apache/kafka:4.0.0 /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9094 --list'
 start=$(date +%s)
 timeout 90 docker run --rm --name tf-test-external --network kafka-tp apache/kafka:4.0.0 \
-  /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9094 --list 2>&1 | grep -v "^\s*at " | head -8 >> "$out"
+  /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9094 --list > /tmp/tp6-net.txt 2>&1
+head -2 /tmp/tp6-net.txt >> "$out"; note "[...]"; grep -a -E "Error|Timed out|TimeoutException" /tmp/tp6-net.txt | grep -v "^\s*at " | tail -2 >> "$out"
 note "(durée : $(( $(date +%s) - start )) s)"
 docker rm -f tf-test-external >/dev/null 2>&1
 step "3) Depuis la machine hôte : le port localhost:9092 répond"
@@ -260,6 +266,7 @@ k "./kafka-consumer-groups.sh --bootstrap-server \$BS --describe --group notific
 stopbg T2
 
 # --- 8. Nettoyage ---------------------------------------------------------
+stopall
 section 08-nettoyage.txt
 step "Suppression des topics du TP"
 for t in ticketflow.payment.succeeded ticketflow.payment.failed ticketflow.booking.cancelled ticketflow.booking.status; do
