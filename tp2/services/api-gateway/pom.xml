@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    TP1 - Gateway API (TicketFlow)
+    TP1 - Gateway API / TP2 - Discovery Service (TicketFlow)
     Auteur : Ossama Elmansouri
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -20,6 +20,10 @@
     <name>api-gateway</name>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway-server-webflux</artifactId>
