@@ -1,0 +1,17 @@
+# TP2 - Discovery Service (TicketFlow)
+# Auteur : Ossama Elmansouri
+server:
+  port: 8761
+spring:
+  application:
+    name: discovery-server
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    # Serveur autonome : il ne s'inscrit pas auprès de lui-même
+    # et ne télécharge pas de registre pair.
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
