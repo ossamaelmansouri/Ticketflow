@@ -1,0 +1,13 @@
+# TP3 - Config Server (TicketFlow) - Auteur : Ossama Elmansouri
+# Configuration minimale : la route, le port et Actuator sont lus
+# dans api-gateway.yml du dépôt ticketflow-config (via config-server).
+# L'import est obligatoire (pas de "optional:") : sans configuration,
+# la gateway refuse de démarrer.
+spring:
+  application:
+    name: api-gateway
+  config:
+    import: "configserver:http://localhost:8888"
+  cloud:
+    config:
+      label: main
