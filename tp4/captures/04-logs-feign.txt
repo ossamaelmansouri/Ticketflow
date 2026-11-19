@@ -1,0 +1,16 @@
+2026-11-19T21:54:35.876  [EventClient#getById] ---> GET http://event-service/api/events/1 HTTP/1.1
+2026-11-19T21:54:35.937  [EventClient#getById] <--- HTTP/1.1 200 (60ms)
+2026-11-19T21:54:36.078  [EventClient#getById] ---> GET http://event-service/api/events/999 HTTP/1.1
+2026-11-19T21:54:36.090  [EventClient#getById] <--- HTTP/1.1 404 (12ms)
+2026-11-19T21:54:36.151  [EventClient#getById] ---> GET http://event-service/api/events/2 HTTP/1.1
+2026-11-19T21:54:36.155  [EventClient#getById] <--- HTTP/1.1 200 (4ms)
+2026-11-19T21:54:36.216  [EventClient#getById] ---> GET http://event-service/api/events/1 HTTP/1.1
+2026-11-19T21:54:36.220  [EventClient#getById] <--- HTTP/1.1 200 (3ms)
+2026-11-19T21:54:36.587  [EventClient#getById] ---> GET http://event-service/api/events/999 HTTP/1.1
+2026-11-19T21:54:36.591  [EventClient#getById] <--- HTTP/1.1 404 (3ms)
+2026-11-19T21:54:36.648  [EventClient#getById] ---> GET http://event-service/api/events/2 HTTP/1.1
+2026-11-19T21:54:36.652  [EventClient#getById] <--- HTTP/1.1 200 (4ms)
+2026-11-19T21:54:43.309  [EventClient#getById] ---> GET http://event-service/api/events/1 HTTP/1.1
+2026-11-19T21:54:45.313  [EventClient#getById] <--- ERROR SocketTimeoutException: Connect timed out (2003ms)
+2026-11-19T21:54:45.374  [EventClient#getById] ---> GET http://event-service/api/events/1 HTTP/1.1
+2026-11-19T21:54:47.376  [EventClient#getById] <--- ERROR SocketTimeoutException: Connect timed out (2001ms)

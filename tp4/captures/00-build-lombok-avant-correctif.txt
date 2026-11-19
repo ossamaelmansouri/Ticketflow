@@ -1,0 +1,8 @@
+# Premier build (JDK 25), avant correctif : ./mvnw -DskipTests install
+[ERROR] COMPILATION ERROR :
+[ERROR] /C:/Users/elman/Documents/Ticketflow/tp4/services/event-service/src/main/java/com/ticketflow/eventservice/dto/EventResponse.java:[20,35] cannot find symbol
+  symbol:   method getId()
+  location: variable e of type com.ticketflow.eventservice.entities.Event
+[ERROR] /C:/Users/elman/Documents/Ticketflow/tp4/services/event-service/src/main/java/com/ticketflow/eventservice/dto/EventResponse.java:[20,46] cannot find symbol
+  symbol:   method getTitle()
+  location: variable e of type com.ticketflow.eventservice.entities.Event

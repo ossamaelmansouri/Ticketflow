@@ -13,6 +13,6 @@ Le dossier [`ticketflow-config/`](ticketflow-config/) contient la configuration 
 | TP1 | [`tp1/`](tp1/) | Spring Cloud Gateway : route statique vers customer-service | Terminé |
 | TP2 | [`tp2/`](tp2/) | Eureka : discovery-server, route `lb://customer-service`, option Discovery Locator | Terminé |
 | TP3 | [`tp3/`](tp3/) | Config Server + GitHub : configuration centralisée, refresh sans redémarrage, profil dev | Terminé |
-| TP4 | `tp4/` | — | À venir |
+| TP4 | [`tp4/`](tp4/) | OpenFeign : booking-service appelle event-service par son nom Eureka, gestion des erreurs et délais | Terminé |
 | TP5 | `tp5/` | — | À venir |
 | TP6 | `tp6/` | — | À venir |

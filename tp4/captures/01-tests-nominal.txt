@@ -1,0 +1,97 @@
+
+===== 5a. Eureka : EVENT-SERVICE et BOOKING-SERVICE inscrits =====
+$ curl -s -o /dev/null -w EVENT-SERVICE   : HTTP %{http_code}\n -H Accept: application/json http://localhost:8761/eureka/apps/EVENT-SERVICE
+EVENT-SERVICE   : HTTP 200
+
+$ curl -s -o /dev/null -w BOOKING-SERVICE : HTTP %{http_code}\n -H Accept: application/json http://localhost:8761/eureka/apps/BOOKING-SERVICE
+BOOKING-SERVICE : HTTP 200
+
+
+===== Préparation : création et publication d'un événement sur event-service (8082) =====
+$ curl -s -i -X POST http://localhost:8082/api/events -H Content-Type: application/json -d {"title":"Concert Gnaoua","description":"Soiree TP4","venue":"Casablanca","startsAt":"2027-03-20T20:00:00Z","price":150.00,"capacity":3}
+HTTP/1.1 201 
+Location: http://localhost:8082/api/events/1
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 19 Nov 2026 20:54:35 GMT
+
+{"id":1,"title":"Concert Gnaoua","description":"Soiree TP4","venue":"Casablanca","startsAt":"2027-03-20T20:00:00Z","price":150.00,"capacity":3,"status":"DRAFT","createdAt":"2026-11-19T20:54:35.459417700Z"}
+$ curl -s -i -X POST http://localhost:8082/api/events/1/publish
+HTTP/1.1 200 
+Content-Type: application/json
+Content-Length: 206
+Date: Thu, 19 Nov 2026 20:54:35 GMT
+
+{"id":1,"title":"Concert Gnaoua","description":"Soiree TP4","venue":"Casablanca","startsAt":"2027-03-20T20:00:00Z","price":150.00,"capacity":3,"status":"PUBLISHED","createdAt":"2026-11-19T20:54:35.459418Z"}
+$ curl -s -i -X POST http://localhost:8082/api/events -H Content-Type: application/json -d {"title":"Brouillon","venue":"Rabat","startsAt":"2027-04-01T20:00:00Z","price":80.00,"capacity":50}
+HTTP/1.1 201 
+Location: http://localhost:8082/api/events/2
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 19 Nov 2026 20:54:35 GMT
+
+{"id":2,"title":"Brouillon","description":null,"venue":"Rabat","startsAt":"2027-04-01T20:00:00Z","price":80.00,"capacity":50,"status":"DRAFT","createdAt":"2026-11-19T20:54:35.712677600Z"}
+
+===== 5b. Contrat direct : GET /api/events/1 sur 8082 - attendu 200 =====
+$ curl -s -i http://localhost:8082/api/events/1
+HTTP/1.1 200 
+Content-Type: application/json
+Content-Length: 206
+Date: Thu, 19 Nov 2026 20:54:35 GMT
+
+{"id":1,"title":"Concert Gnaoua","description":"Soiree TP4","venue":"Casablanca","startsAt":"2027-03-20T20:00:00Z","price":150.00,"capacity":3,"status":"PUBLISHED","createdAt":"2026-11-19T20:54:35.459418Z"}
+
+===== 7a. Réservation via booking-service (8083) - Feign appelle event-service - attendu 201 =====
+$ curl -s -i -X POST http://localhost:8083/api/bookings -H Content-Type: application/json -d {"eventId":1,"customerId":1,"quantity":2}
+HTTP/1.1 201 
+Location: http://localhost:8083/api/bookings/1
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 19 Nov 2026 20:54:36 GMT
+
+{"id":1,"eventId":1,"eventTitle":"Concert Gnaoua","customerId":1,"quantity":2,"unitPrice":150.00,"totalPrice":300.00,"createdAt":"2026-11-19T20:54:35.983809200Z"}
+
+===== 7b. Identifiant absent (eventId 999) - attendu 404, pas un succès =====
+$ curl -s -i -X POST http://localhost:8083/api/bookings -H Content-Type: application/json -d {"eventId":999,"customerId":1,"quantity":1}
+HTTP/1.1 404 
+Content-Type: application/problem+json
+Transfer-Encoding: chunked
+Date: Thu, 19 Nov 2026 20:54:36 GMT
+
+{"detail":"Event 999 not found (event-service answered 404)","instance":"/api/bookings","status":404,"title":"Not Found"}
+
+===== 7c. Événement non publié (DRAFT) - attendu 409 =====
+$ curl -s -i -X POST http://localhost:8083/api/bookings -H Content-Type: application/json -d {"eventId":2,"customerId":1,"quantity":1}
+HTTP/1.1 409 
+Content-Type: application/problem+json
+Transfer-Encoding: chunked
+Date: Thu, 19 Nov 2026 20:54:36 GMT
+
+{"detail":"Event 2 is DRAFT: only PUBLISHED events can be booked","instance":"/api/bookings","status":409,"title":"Conflict"}
+
+===== 7d. Plus assez de places (capacité 3, 2 déjà réservées) - attendu 409 =====
+$ curl -s -i -X POST http://localhost:8083/api/bookings -H Content-Type: application/json -d {"eventId":1,"customerId":2,"quantity":2}
+HTTP/1.1 409 
+Content-Type: application/problem+json
+Transfer-Encoding: chunked
+Date: Thu, 19 Nov 2026 20:54:36 GMT
+
+{"detail":"Not enough seats for event 1: requested 2, remaining 1","instance":"/api/bookings","status":409,"title":"Conflict"}
+
+===== 7e. Liste des réservations - une seule réservation enregistrée =====
+$ curl -s -i http://localhost:8083/api/bookings
+HTTP/1.1 200 
+Content-Type: application/json
+Content-Length: 161
+Date: Thu, 19 Nov 2026 20:54:36 GMT
+
+[{"id":1,"eventId":1,"eventTitle":"Concert Gnaoua","customerId":1,"quantity":2,"unitPrice":150.00,"totalPrice":300.00,"createdAt":"2026-11-19T20:54:35.983809Z"}]
+
+===== Vérifications automatiques =====
+OK : EVENT-SERVICE dans Eureka (200)
+OK : BOOKING-SERVICE dans Eureka (200)
+OK : contrat direct GET /api/events/1 (200)
+OK : id absent → 404 (pas 201) (404)
+OK : événement DRAFT → 409 (409)
+OK : une seule réservation enregistrée (les erreurs n'ont rien créé) (1)
+OK : le titre vient d'event-service via Feign

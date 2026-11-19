@@ -1,0 +1,13 @@
+
+===== event-service arrêté : réservation - attendu 503 (pas un succès) =====
+$ curl -s -i -X POST http://localhost:8083/api/bookings -H Content-Type: application/json -d {"eventId":1,"customerId":3,"quantity":1}
+HTTP/1.1 503 
+Content-Type: application/problem+json
+Transfer-Encoding: chunked
+Date: Thu, 19 Nov 2026 20:54:45 GMT
+Connection: close
+
+{"detail":"event-service unavailable (status -1): Connect timed out executing GET http://event-service/api/events/1","instance":"/api/bookings","status":503,"title":"Service Unavailable"}
+
+===== Vérifications automatiques =====
+OK : event-service indisponible → 503 (503)
