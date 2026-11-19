@@ -22,6 +22,7 @@ client ──► api-gateway (localhost:8080) ──► customer-service (localh
 | 6 | `services/api-gateway/pom.xml` | Starter `spring-cloud-starter-gateway-server-webflux`, Actuator, tests. Pas de Spring MVC ni de starter Servlet, pas de versions individuelles |
 | 7 | `services/api-gateway/src/main/java/com/ticketflow/apigateway/ApiGatewayApplication.java` | Classe de démarrage `@SpringBootApplication` |
 | 8 | `services/api-gateway/src/main/resources/application.yml` | Port 8080, route statique `customer-service` vers `http://localhost:8081`, filtre `X-Served-By`, endpoints Actuator `health,info,gateway` |
+| 10 | `application.yml` (complément) | `management.endpoint.gateway.access: read-only` : sans cette ligne, `/actuator/gateway/routes` répond 404 avec Spring Boot 4 (constaté pendant les tests) |
 | — | `scripts/test-tp1.sh` | Script qui rejoue tous les tests curl du TP |
 
 ### La route déclarée
@@ -78,7 +79,37 @@ curl -i http://localhost:8080/api/customers
 curl -i http://localhost:8080/actuator/gateway/routes
 ```
 
-Captures d'écran à ajouter dans `captures/` après exécution : démarrage des deux services, réponse directe sur 8081, même réponse via 8080 avec l'en-tête `X-Served-By`, et sortie de `/actuator/gateway/routes`.
+### Résultats obtenus (exécution du 19/11/2026)
+
+Les deux services ont été lancés avec `./mvnw ... spring-boot:run`, puis `scripts/test-tp1.sh` a été exécuté. Tous les résultats attendus sont obtenus :
+
+| Test | Résultat |
+|---|---|
+| POST direct 8081 | `201`, `Location: /api/customers/1` |
+| GET direct 8081 (client + liste) | `200` |
+| GET via gateway 8080 | `200`, même corps, `X-Served-By: api-gateway` |
+| POST via gateway 8080 | `201`, `X-Served-By: api-gateway` |
+| GET + liste via gateway | `200`, les 2 clients visibles, `X-Served-By: api-gateway` |
+| `/actuator/gateway/routes` | `200`, route `customer-service` → `http://localhost:8081` |
+
+Le dossier [`captures/`](captures/) contient les sorties brutes (`03-tests-curl.txt`, logs de démarrage, JSON des routes) et leur rendu en images :
+
+| Capture | Contenu |
+|---|---|
+| ![](captures/capture-01-demarrage-customer-service.png) | Démarrage de customer-service sur 8081 |
+| ![](captures/capture-02-demarrage-api-gateway.png) | Démarrage de api-gateway (Netty) sur 8080 |
+| ![](captures/capture-11-1-post-direct-8081.png) | POST direct sur 8081 → 201 |
+| ![](captures/capture-12-2-get-direct-8081.png) | GET direct sur 8081 → 200 |
+| ![](captures/capture-13-3-get-via-gateway-8080.png) | GET via la gateway → 200 + `X-Served-By` |
+| ![](captures/capture-14-4-post-via-gateway-8080.png) | POST via la gateway → 201 |
+| ![](captures/capture-15-5-get-liste-via-gateway.png) | GET et liste via la gateway |
+| ![](captures/capture-16-6-routes-actuator.png) | Routes exposées par Actuator |
+
+Remarque : la machine de test utilise un JDK 25. Le projet compile en Java 21 (`java.version` du POM parent), ce qui reste compatible.
+
+## Dépannage rencontré
+
+- `/actuator/gateway/routes` répondait **404** alors que l'endpoint était dans `exposure.include`. Avec Spring Boot 4, l'endpoint `gateway` doit aussi être activé : `management.endpoint.gateway.access: read-only`. Après ajout, la réponse est `200`.
 
 ## Bilan
 

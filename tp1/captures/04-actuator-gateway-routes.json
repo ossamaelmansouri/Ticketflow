@@ -1,0 +1,1 @@
+[{"predicate":"(RouteDefinitionRouteLocator$$Lambda/0x0000000037609740 && Paths: [/api/customers/**], match trailing slash: true)","route_id":"customer-service","filters":["[[AddResponseHeader name = 'X-Served-By', value = 'api-gateway', override = true], order = 1]"],"uri":"http://localhost:8081","order":0}]

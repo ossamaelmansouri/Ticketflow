@@ -19,6 +19,11 @@ spring:
                 - AddResponseHeader=X-Served-By, api-gateway
 
 management:
+  # Spring Boot 4 : l'endpoint "gateway" doit être activé (en lecture seule)
+  # en plus d'être exposé, sinon /actuator/gateway/routes répond 404.
+  endpoint:
+    gateway:
+      access: read-only
   endpoints:
     web:
       exposure:

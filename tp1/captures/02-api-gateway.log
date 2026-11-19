@@ -1,0 +1,58 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< com.ticketflow:api-gateway >---------------------
+[INFO] Building api-gateway 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.8:run (default-cli) > test-compile @ api-gateway >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ api-gateway ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ api-gateway ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ api-gateway ---
+[INFO] skip non existing resourceDirectory C:\Users\elman\Documents\Ticketflow\tp1\services\api-gateway\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ api-gateway ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] <<< spring-boot:4.0.8:run (default-cli) < test-compile @ api-gateway <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.8:run (default-cli) @ api-gateway ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.8)
+
+2026-11-19T20:55:51.732+01:00  INFO 11880 --- [api-gateway] [           main] c.t.apigateway.ApiGatewayApplication     : Starting ApiGatewayApplication using Java 25.0.2 with PID 11880 (C:\Users\elman\Documents\Ticketflow\tp1\services\api-gateway\target\classes started by elman in C:\Users\elman\Documents\Ticketflow\tp1\services\api-gateway)
+2026-11-19T20:55:51.735+01:00  INFO 11880 --- [api-gateway] [           main] c.t.apigateway.ApiGatewayApplication     : No active profile set, falling back to 1 default profile: "default"
+2026-11-19T20:55:52.453+01:00  INFO 11880 --- [api-gateway] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=940728f0-351a-3af0-89dc-91bedde5dc74
+2026-11-19T20:55:52.955+01:00  INFO 11880 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [After]
+2026-11-19T20:55:52.955+01:00  INFO 11880 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Before]
+2026-11-19T20:55:52.955+01:00  INFO 11880 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Between]
+2026-11-19T20:55:52.955+01:00  INFO 11880 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Cookie]
+2026-11-19T20:55:52.955+01:00  INFO 11880 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Header]
+2026-11-19T20:55:52.955+01:00  INFO 11880 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Host]
+2026-11-19T20:55:52.955+01:00  INFO 11880 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Method]
+2026-11-19T20:55:52.955+01:00  INFO 11880 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Path]
+2026-11-19T20:55:52.956+01:00  INFO 11880 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Query]
+2026-11-19T20:55:52.956+01:00  INFO 11880 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [ReadBody]
+2026-11-19T20:55:52.956+01:00  INFO 11880 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [RemoteAddr]
+2026-11-19T20:55:52.956+01:00  INFO 11880 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Version]
+2026-11-19T20:55:52.956+01:00  INFO 11880 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [XForwardedRemoteAddr]
+2026-11-19T20:55:52.956+01:00  INFO 11880 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Weight]
+2026-11-19T20:55:52.956+01:00  INFO 11880 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [CloudFoundryRouteService]
+2026-11-19T20:55:53.074+01:00  INFO 11880 --- [api-gateway] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
+2026-11-19T20:55:53.305+01:00  INFO 11880 --- [api-gateway] [           main] o.s.boot.reactor.netty.NettyWebServer    : Netty started on port 8080 (http)
+2026-11-19T20:55:53.345+01:00  INFO 11880 --- [api-gateway] [           main] c.t.apigateway.ApiGatewayApplication     : Started ApiGatewayApplication in 1.943 seconds (process running for 2.337)
