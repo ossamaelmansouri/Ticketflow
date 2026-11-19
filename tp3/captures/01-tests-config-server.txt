@@ -1,0 +1,34 @@
+
+===== 5a. Santé du Config Server - attendu 200 UP =====
+$ curl -s -i http://localhost:8888/actuator/health
+HTTP/1.1 200 
+Content-Type: application/vnd.spring-boot.actuator.v3+json
+Transfer-Encoding: chunked
+Date: Thu, 19 Nov 2026 20:28:38 GMT
+
+{"groups":["liveness","readiness"],"status":"UP"}
+
+===== 5b. Configuration de customer-service lue dans GitHub =====
+$ curl -s -i http://localhost:8888/customer-service/default/main
+HTTP/1.1 200 
+Content-Type: application/json
+Content-Length: 671
+Date: Thu, 19 Nov 2026 20:28:38 GMT
+
+{"name":"customer-service","profiles":["default"],"label":"main","version":"1090d025fdbb56775b5ccb08c880b0d8839c2545","state":"","propertySources":[{"name":"https://github.com/ossamaelmansouri/Ticketflow.git/ticketflow-config/customer-service.yml","source":{"server.port":8081,"management.endpoints.web.exposure.include":"health,info,refresh","eureka.client.refresh.enable":false,"ticketflow.message":"Bienvenue dans TicketFlow - configuration v1"}},{"name":"https://github.com/ossamaelmansouri/Ticketflow.git/ticketflow-config/application.yml","source":{"eureka.client.service-url.defaultZone":"http://localhost:8761/eureka/","eureka.instance.prefer-ip-address":true}}]}
+
+===== 5c. Configuration de api-gateway lue dans GitHub =====
+$ curl -s -i http://localhost:8888/api-gateway/default/main
+HTTP/1.1 200 
+Content-Type: application/json
+Content-Length: 1012
+Date: Thu, 19 Nov 2026 20:28:39 GMT
+
+{"name":"api-gateway","profiles":["default"],"label":"main","version":"1090d025fdbb56775b5ccb08c880b0d8839c2545","state":"","propertySources":[{"name":"https://github.com/ossamaelmansouri/Ticketflow.git/ticketflow-config/api-gateway.yml","source":{"server.port":8080,"spring.cloud.gateway.server.webflux.discovery.locator.enabled":false,"spring.cloud.gateway.server.webflux.routes[0].id":"customer-service","spring.cloud.gateway.server.webflux.routes[0].uri":"lb://customer-service","spring.cloud.gateway.server.webflux.routes[0].predicates[0]":"Path=/api/customers/**","spring.cloud.gateway.server.webflux.routes[0].filters[0]":"AddResponseHeader=X-Served-By, api-gateway","management.endpoint.gateway.access":"read-only","management.endpoints.web.exposure.include":"health,info,gateway"}},{"name":"https://github.com/ossamaelmansouri/Ticketflow.git/ticketflow-config/application.yml","source":{"eureka.client.service-url.defaultZone":"http://localhost:8761/eureka/","eureka.instance.prefer-ip-address":true}}]}
+
+===== Vérifications automatiques =====
+OK : customer-service : server.port présent
+OK : customer-service : eureka defaultZone (application.yml)
+OK : customer-service : ticketflow.message en v1
+OK : api-gateway : route lb://customer-service
+OK : label main

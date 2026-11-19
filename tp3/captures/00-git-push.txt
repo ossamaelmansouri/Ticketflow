@@ -1,0 +1,11 @@
+--- push v1 --- 
+To https://github.com/ossamaelmansouri/Ticketflow.git
+   7a49fec..1090d02  bundle/step4 -> main
+1090d02 TP3 : correctif du refresh (eureka.client.refresh.enable=false)
+--- push v2 --- 
+To https://github.com/ossamaelmansouri/Ticketflow.git
+   1090d02..9563725  bundle/step5 -> main
+9563725 Modifier le message TicketFlow (TP3, v2, second passage)
+--- push dev --- 
+Everything up-to-date
+9563725 Modifier le message TicketFlow (TP3, v2, second passage)

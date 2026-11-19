@@ -1,0 +1,12 @@
+
+===== 10b. customer-service relancé avec -Dspring-boot.run.profiles=dev =====
+$ curl -s -i http://localhost:8081/api/config/message
+HTTP/1.1 200 
+Content-Type: application/json
+Content-Length: 37
+Date: Thu, 19 Nov 2026 20:30:20 GMT
+
+{"message":"TicketFlow - profil dev"}
+
+===== Vérifications automatiques =====
+OK : message du profil dev

@@ -1,0 +1,22 @@
+
+===== 9a. Config Server après git push - attendu v2 =====
+$ curl -s -i http://localhost:8888/customer-service/default/main
+HTTP/1.1 200 
+Content-Type: application/json
+Content-Length: 671
+Date: Thu, 19 Nov 2026 20:29:56 GMT
+
+{"name":"customer-service","profiles":["default"],"label":"main","version":"9563725bec52429f9ca2adaf9098d0230732c632","state":"","propertySources":[{"name":"https://github.com/ossamaelmansouri/Ticketflow.git/ticketflow-config/customer-service.yml","source":{"server.port":8081,"management.endpoints.web.exposure.include":"health,info,refresh","eureka.client.refresh.enable":false,"ticketflow.message":"Bienvenue dans TicketFlow - configuration v2"}},{"name":"https://github.com/ossamaelmansouri/Ticketflow.git/ticketflow-config/application.yml","source":{"eureka.client.service-url.defaultZone":"http://localhost:8761/eureka/","eureka.instance.prefer-ip-address":true}}]}
+
+===== 9b. Service toujours en mémoire - attendu v1 =====
+$ curl -s -i http://localhost:8081/api/config/message
+HTTP/1.1 200 
+Content-Type: application/json
+Content-Length: 58
+Date: Thu, 19 Nov 2026 20:29:56 GMT
+
+{"message":"Bienvenue dans TicketFlow - configuration v1"}
+
+===== Vérifications automatiques =====
+OK : Config Server sert v2
+OK : le service renvoie encore v1

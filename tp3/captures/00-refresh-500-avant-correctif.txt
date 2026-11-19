@@ -1,0 +1,20 @@
+# Premier passage (avant correctif) : POST /actuator/refresh
+
+===== 9c. POST /actuator/refresh - attendu 200 et ticketflow.message =====
+$ curl -s -i -X POST http://localhost:8081/actuator/refresh
+HTTP/1.1 500 
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 19 Nov 2026 20:26:27 GMT
+Connection: close
+
+{"timestamp":"2026-11-19T20:26:27.859Z","status":500,"error":"Internal Server Error","path":"/actuator/refresh"}
+
+# Extrait du log de customer-service
+2026-11-19T21:26:27.847+01:00 ERROR 2364 --- [customer-service] [nio-8081-exec-5] com.netflix.discovery.DiscoveryClient    : Fetch registry error at startup: Cannot invoke "Object.hashCode()" because "key" is null
+2026-11-19T21:26:27.849+01:00 ERROR 2364 --- [customer-service] [nio-8081-exec-5] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.springframewo
+
+java.lang.NullPointerException: Cannot invoke "Object.hashCode()" because "key" is null
+	at java.base/java.util.concurrent.ConcurrentHashMap.get(ConcurrentHashMap.java:948) ~[na:na]
+	at com.netflix.discovery.shared.Application.getByInstanceId(Application.java:181) ~[eureka-client-2.0.6.jar:2.0.6]
+	at com.netflix.discovery.DiscoveryClient.updateInstanceRemoteStatus(DiscoveryClient.java:1006) ~[eureka-client-2.0.6.jar:2.0.6]
