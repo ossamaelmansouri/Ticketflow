@@ -31,6 +31,9 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+  instance:
+    # Même raison que pour customer-service : inscrire l'IP, pas le nom de machine.
+    prefer-ip-address: true
 
 management:
   # Spring Boot 4 : l'endpoint "gateway" doit être activé (en lecture seule)
