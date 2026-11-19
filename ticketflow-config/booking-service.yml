@@ -1,0 +1,25 @@
+server:
+  port: 8083
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+spring:
+  cloud:
+    openfeign:
+      client:
+        config:
+          event-service:
+            # TP4 section 6 : l'appel est synchrone, on borne l'attente (ms).
+            connectTimeout: 2000
+            readTimeout: 3000
+            # BASIC : méthode, URL, statut et durée. Pas de corps ni d'en-têtes.
+            loggerLevel: basic
+
+logging:
+  level:
+    # Les logs Feign ne sortent qu'au niveau DEBUG du client concerné.
+    com.ticketflow.bookingservice.clients.EventClient: DEBUG
