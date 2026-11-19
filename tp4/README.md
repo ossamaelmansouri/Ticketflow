@@ -16,7 +16,7 @@ client ──► booking-service :8083 ──EventClient (OpenFeign)──► ev
 ## Point de départ et prérequis
 
 - État final du TP3 (Config Server, Eureka, gateway, customer-service).
-- **event-service** : l'énoncé le donne comme prérequis (« les deux applications existent déjà »). Il est repris de la branche du cours `feature/step-04-event-service`, puis adapté au TP3 : client Config, propriétés dans `ticketflow-config/event-service.yml` (port 8082), tests isolés de Config Server et d'Eureka.
+- **event-service** : l'énoncé le donne comme prérequis (« les deux applications existent déjà »). Il est repris de la branche du cours `feature/step-04-event-service`, puis adapté au TP3 : client Config, propriétés dans `event-service.yml` (dépôt ticketflow-config, port 8082), tests isolés de Config Server et d'Eureka.
 - **booking-service** n'existait pas dans le projet : il a été écrit pour ce TP (réservation simple : événement, client, nombre de places, prix copié depuis l'événement).
 
 ## Travail réalisé
@@ -30,7 +30,7 @@ client ──► booking-service :8083 ──EventClient (OpenFeign)──► ev
 | 4 | `service/BookingService.java` | `EventClient` injecté dans le service métier (pas dans le contrôleur) ; `validateEvent()` appelé avant l'enregistrement |
 | 4 | `controllers/BookingController.java` | `POST /api/bookings` (201 + Location), `GET /api/bookings`, `GET /api/bookings/{id}` |
 | 7 | `exceptions/*` | Traduction explicite des erreurs distantes en réponses `application/problem+json` |
-| 6 | `ticketflow-config/booking-service.yml` | Port 8083, `connectTimeout: 2000`, `readTimeout: 3000`, logs Feign `basic` (sans corps ni en-têtes) |
+| 6 | `booking-service.yml` (dépôt ticketflow-config) | Port 8083, `connectTimeout: 2000`, `readTimeout: 3000`, logs Feign `basic` (sans corps ni en-têtes) |
 | — | `src/test/...` | 5 tests unitaires du cas métier avec un `EventClient` simulé, test de démarrage du contexte |
 | — | `scripts/test-tp4.sh` | Scénario complet : nominal, id absent, DRAFT, plus de places, event-service arrêté |
 
@@ -48,11 +48,10 @@ Une erreur distante n'est **jamais** transformée en succès, et aucune réserva
 
 ## Exécution
 
-Depuis `tp4/`, avec la configuration du TP3 :
+Depuis `tp4/`, avec la configuration du TP3 (dépôt [ticketflow-config](https://github.com/ossamaelmansouri/ticketflow-config)) :
 
 ```bash
-export CONFIG_GIT_URI=https://github.com/ossamaelmansouri/Ticketflow.git
-export CONFIG_SEARCH_PATHS=ticketflow-config
+export CONFIG_GIT_URI=https://github.com/ossamaelmansouri/ticketflow-config.git
 ./mvnw -DskipTests install
 ./mvnw -pl services/config-server spring-boot:run
 ./mvnw -pl services/discovery-server spring-boot:run

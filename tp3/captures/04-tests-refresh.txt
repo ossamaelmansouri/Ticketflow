@@ -4,7 +4,7 @@ $ curl -s -i -X POST http://localhost:8081/actuator/refresh
 HTTP/1.1 200 
 Content-Type: application/vnd.spring-boot.actuator.v3+json
 Content-Length: 46
-Date: Thu, 19 Nov 2026 20:29:58 GMT
+Date: Thu, 19 Nov 2026 21:52:29 GMT
 
 ["config.client.version","ticketflow.message"]
 
@@ -13,17 +13,17 @@ $ curl -s -i http://localhost:8081/api/config/message
 HTTP/1.1 200 
 Content-Type: application/json
 Content-Length: 58
-Date: Thu, 19 Nov 2026 20:29:58 GMT
+Date: Thu, 19 Nov 2026 21:52:29 GMT
 
 {"message":"Bienvenue dans TicketFlow - configuration v2"}
 $ curl -s -i http://localhost:8080/api/customers
 HTTP/1.1 200 OK
 Content-Type: application/json
 Content-Length: 148
-Date: Thu, 19 Nov 2026 20:29:58 GMT
+Date: Thu, 19 Nov 2026 21:52:29 GMT
 X-Served-By: api-gateway
 
-[{"id":1,"firstName":"Salma","lastName":"Alaoui","email":"salma.tp3.1795120185@example.com","phone":null,"createdAt":"2026-11-19T20:29:45.933936Z"}]
+[{"id":1,"firstName":"Salma","lastName":"Alaoui","email":"salma.tp3.1795125136@example.com","phone":null,"createdAt":"2026-11-19T21:52:17.292110Z"}]
 
 ===== Vérifications automatiques =====
 OK : message v2

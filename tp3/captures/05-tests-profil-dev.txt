@@ -3,10 +3,10 @@
 $ curl -s -i http://localhost:8888/customer-service/dev/main
 HTTP/1.1 200 
 Content-Type: application/json
-Content-Length: 830
-Date: Thu, 19 Nov 2026 20:30:04 GMT
+Content-Length: 797
+Date: Thu, 19 Nov 2026 21:52:36 GMT
 
-{"name":"customer-service","profiles":["dev"],"label":"main","version":"9563725bec52429f9ca2adaf9098d0230732c632","state":"","propertySources":[{"name":"https://github.com/ossamaelmansouri/Ticketflow.git/ticketflow-config/customer-service-dev.yml","source":{"ticketflow.message":"TicketFlow - profil dev"}},{"name":"https://github.com/ossamaelmansouri/Ticketflow.git/ticketflow-config/customer-service.yml","source":{"server.port":8081,"management.endpoints.web.exposure.include":"health,info,refresh","eureka.client.refresh.enable":false,"ticketflow.message":"Bienvenue dans TicketFlow - configuration v2"}},{"name":"https://github.com/ossamaelmansouri/Ticketflow.git/ticketflow-config/application.yml","source":{"eureka.client.service-url.defaultZone":"http://localhost:8761/eureka/","eureka.instance.prefer-ip-address":true}}]}
+{"name":"customer-service","profiles":["dev"],"label":"main","version":"f8c573216092896c28cf6852f3073fbace9174ca","state":"","propertySources":[{"name":"https://github.com/ossamaelmansouri/ticketflow-config.git/customer-service-dev.yml","source":{"ticketflow.message":"TicketFlow - profil dev"}},{"name":"https://github.com/ossamaelmansouri/ticketflow-config.git/customer-service.yml","source":{"server.port":8081,"management.endpoints.web.exposure.include":"health,info,refresh","eureka.client.refresh.enable":false,"ticketflow.message":"Bienvenue dans TicketFlow - configuration v2"}},{"name":"https://github.com/ossamaelmansouri/ticketflow-config.git/application.yml","source":{"eureka.client.service-url.defaultZone":"http://localhost:8761/eureka/","eureka.instance.prefer-ip-address":true}}]}
 
 ===== Vérifications automatiques =====
 OK : profil dev servi

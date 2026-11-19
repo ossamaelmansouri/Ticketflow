@@ -4,7 +4,7 @@ $ curl -s -i http://localhost:8081/api/config/message
 HTTP/1.1 200 
 Content-Type: application/json
 Content-Length: 37
-Date: Thu, 19 Nov 2026 20:30:20 GMT
+Date: Thu, 19 Nov 2026 21:52:56 GMT
 
 {"message":"TicketFlow - profil dev"}
 

@@ -15,44 +15,43 @@ Trafic métier : client → api-gateway :8080 → customer-service :8081
 
 Config Server n'est ni un registre ni un proxy : il n'est pas client Eureka, et `discovery-server` garde sa configuration locale (pas de dépendance circulaire au démarrage).
 
-## Écart par rapport à l'énoncé : emplacement du dépôt de configuration
+## Dépôt de configuration
 
-L'énoncé demande un dépôt GitHub séparé, `ticketflow-config`. Ce dépôt n'a pas encore été créé sur le compte GitHub. Les fichiers de configuration sont donc dans le dossier [`ticketflow-config/`](../ticketflow-config/) **à la racine du dépôt Ticketflow**, à côté des dossiers des TP et non à l'intérieur de `tp3/`. Config Server lit ce dossier avec deux variables d'environnement :
+Comme le demande l'énoncé, la configuration est dans un dépôt GitHub séparé : **[ossamaelmansouri/ticketflow-config](https://github.com/ossamaelmansouri/ticketflow-config)**, branche `main`, fichiers à la racine. Son historique suit les étapes du TP :
 
-```bash
-export CONFIG_GIT_URI=https://github.com/ossamaelmansouri/Ticketflow.git
-export CONFIG_SEARCH_PATHS=ticketflow-config
-```
+| Commit | Message | Étape |
+|---|---|---|
+| `e7903de` | Centraliser la configuration TicketFlow | Sections 2 et 3 (message v1) |
+| `3dd8f4b` | Modifier le message TicketFlow | Section 9 (message v2) |
+| `f8c5732` | Ajouter le profil dev | Section 10 |
+| `6237488` | Ajouter event-service et booking-service (TP4, TP5) | Suite de la série |
 
-Le fichier `application.yml` de config-server lit `search-paths: ${CONFIG_SEARCH_PATHS:}`, vide par défaut. Pour passer au dépôt séparé de l'énoncé, il suffit de créer `ticketflow-config` sur GitHub, d'y pousser les mêmes fichiers à la racine, puis de lancer config-server avec `CONFIG_GIT_URI=https://github.com/ossamaelmansouri/ticketflow-config.git` sans `CONFIG_SEARCH_PATHS`. Aucune autre ligne ne change.
-
-Le reste du TP est conforme : branche `main`, fichiers nommés d'après `spring.application.name`, un commit Git pour chaque changement de configuration.
+Le champ `version` renvoyé par Config Server correspond à ces commits (par exemple `e7903de…` au démarrage, puis `3dd8f4b…` après le push de v2).
 
 ## Travail réalisé
 
 | Section | Fichier | Modification |
 |---|---|---|
-| 2 | `ticketflow-config/application.yml` | Propriétés partagées : URL Eureka, `prefer-ip-address` |
-| 2 | `ticketflow-config/customer-service.yml` | Port 8081, Actuator `health,info,refresh`, `ticketflow.message` |
-| 3 | `ticketflow-config/api-gateway.yml` | Port 8080, route explicite `lb://customer-service`, Locator désactivé, Actuator gateway en lecture seule |
+| 2 | `application.yml` (dépôt ticketflow-config) | Propriétés partagées : URL Eureka, `prefer-ip-address` |
+| 2 | `customer-service.yml` (dépôt ticketflow-config) | Port 8081, Actuator `health,info,refresh`, `ticketflow.message` |
+| 3 | `api-gateway.yml` (dépôt ticketflow-config) | Port 8080, route explicite `lb://customer-service`, Locator désactivé, Actuator gateway en lecture seule |
 | 4 | `pom.xml` + `services/config-server/` | Module `config-server` : `spring-cloud-config-server`, Actuator, `@EnableConfigServer` |
 | 5 | `config-server/.../application.yml` | Port 8888, backend Git `${CONFIG_GIT_URI}`, label `main`, `clone-on-start`, `refresh-rate: 0` |
 | 6 | POM de `customer-service` et `api-gateway` | `spring-cloud-starter-config` |
 | 6 | `customer-service/.../application.properties` | Seulement le nom, l'import obligatoire `configserver:http://localhost:8888`, le label et JPA |
 | 6 | `api-gateway/.../application.yml` | Configuration minimale : nom, import, label |
 | 7 | `controllers/ConfigDemoController.java` | `GET /api/config/message`, bean `@RefreshScope` |
-| 9 | `ticketflow-config/customer-service.yml` | Message v1 → v2 (commit poussé) |
-| 10 | `ticketflow-config/customer-service-dev.yml` | Profil `dev` |
+| 9 | `customer-service.yml` (dépôt ticketflow-config) | Message v1 → v2 (commit poussé) |
+| 10 | `customer-service-dev.yml` (dépôt ticketflow-config) | Profil `dev` |
 | 12 | `customer-service/src/test/resources/application.properties` | Tests isolés : `spring.cloud.config.enabled=false`, Eureka désactivé, `ticketflow.message` fourni |
-| — | `ticketflow-config/customer-service.yml` | Correctif `eureka.client.refresh.enable: false` (voir « Dépannage rencontré ») |
+| — | `customer-service.yml` (dépôt ticketflow-config) | Correctif `eureka.client.refresh.enable: false` (voir « Dépannage rencontré ») |
 
 ## Exécution
 
 Depuis `tp3/` :
 
 ```bash
-export CONFIG_GIT_URI=https://github.com/ossamaelmansouri/Ticketflow.git
-export CONFIG_SEARCH_PATHS=ticketflow-config
+export CONFIG_GIT_URI=https://github.com/ossamaelmansouri/ticketflow-config.git
 ./mvnw -pl services/config-server spring-boot:run       # 1. 8888 (rester actif)
 ./mvnw -pl services/discovery-server spring-boot:run    # 2. 8761
 ./mvnw -pl services/customer-service spring-boot:run    # 3. 8081
@@ -121,7 +120,7 @@ Aucun processus n'a été arrêté : Salma est toujours dans la liste après le 
 
 `./mvnw -pl services/customer-service test` : **7 tests, 0 échec, BUILD SUCCESS** (`captures/07-tests-unitaires.txt`), sans Config Server ni Eureka démarrés.
 
-Les sorties brutes sont dans [`captures/`](captures/) : fichiers `01` à `07`, logs `log-*.log`, et `00-git-push.txt` avec les commits poussés. Le tableau de bord Eureka est une capture Edge headless ; les autres images reprennent les sorties des tests.
+Les sorties brutes sont dans [`captures/`](captures/) : fichiers `01` à `07`, logs `log-*.log`, et `00-git-push.txt` avec les commits poussés vers ticketflow-config. Le tableau de bord Eureka est une capture Edge headless ; les autres images reprennent les sorties des tests.
 
 ## Dépannage rencontré
 
@@ -131,7 +130,7 @@ Les sorties brutes sont dans [`captures/`](captures/) : fichiers `01` à `07`, l
 
 **Cause.** Le log montre `NullPointerException` dans `DiscoveryClient.updateInstanceRemoteStatus`, appelé depuis `RefreshScope.refreshAll`. Par défaut, le refresh recrée aussi le **client Eureka**, et cette recréation échoue. Le bean `ConfigDemoController` était bien recréé (d'où la v2), mais la réponse globale était une erreur.
 
-**Correction.** `eureka.client.refresh.enable: false` dans `ticketflow-config/customer-service.yml`. Le client Eureka n'est plus recréé pendant un refresh, ce qui n'est pas nécessaire pour recharger `ticketflow.message`. Le message est revenu en v1 (commit dédié) pour rejouer tout le scénario. Au second passage, `POST /actuator/refresh` répond **200** avec la liste des clés modifiées.
+**Correction.** `eureka.client.refresh.enable: false` dans `customer-service.yml` (dépôt de configuration). Le client Eureka n'est plus recréé pendant un refresh, ce qui n'est pas nécessaire pour recharger `ticketflow.message`. Le scénario complet a ensuite été rejoué avec le correctif. Depuis, `POST /actuator/refresh` répond **200** avec la liste des clés modifiées.
 
 ## Bilan
 

@@ -6,7 +6,7 @@ Stack : Java 21, Spring Boot 4.0.8, Spring Cloud 2025.1.2
 
 Chaque TP se trouve dans son propre dossier et contient le projet TicketFlow complet tel qu'il est à la fin de ce TP. Chaque dossier se lance indépendamment des autres.
 
-Le dossier [`ticketflow-config/`](ticketflow-config/) contient la configuration centralisée lue par Config Server à partir du TP3.
+La configuration centralisée lue par Config Server (TP3 à TP5) est dans le dépôt séparé [ossamaelmansouri/ticketflow-config](https://github.com/ossamaelmansouri/ticketflow-config).
 
 | TP | Dossier | Sujet | État |
 |---|---|---|---|

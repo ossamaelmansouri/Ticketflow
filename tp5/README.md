@@ -21,7 +21,7 @@ Point de départ : état final du TP4 (booking-service + EventClient OpenFeign).
 | Section | Fichier | Contenu |
 |---|---|---|
 | 2 | `booking-service/pom.xml` | `spring-cloud-starter-circuitbreaker-resilience4j`, sans version (BOM Spring Cloud) |
-| 3 | `ticketflow-config/booking-service.yml` | `spring.cloud.openfeign.circuitbreaker.enabled: true`, identifiants alphanumériques, seuils `ticketflow.resilience.event-service.*`, délais Feign `default` (2000 / 3000 ms) |
+| 3 | `booking-service.yml` (dépôt ticketflow-config) | `spring.cloud.openfeign.circuitbreaker.enabled: true`, identifiants alphanumériques, seuils `ticketflow.resilience.event-service.*`, délais Feign `default` (2000 / 3000 ms) |
 | 3 | `config/EventServiceResilienceProperties.java` | Lecture typée des seuils (fenêtre 10, minimum 5, 50 %, OPEN 10 s, 3 appels HALF_OPEN, limite 4 s) |
 | 3 | `config/ResilienceConfig.java` | Configuration de l'instance `EventClientgetByIdLong` : fenêtre par nombre d'appels, **404 et 400 ignorés**, limite de temps, journal des transitions et des rejets |
 | 4 | `service/BookingService.java` | L'erreur est extraite de `NoFallbackAvailableException` (pas de repli). 404 → 404 ; circuit ouvert (`CallNotPermittedException`) ou panne (`RetryableException`, délai, 5xx) → 503 |
@@ -33,11 +33,10 @@ Aucun repli ne renvoie un événement « disponible », et aucune réservation n
 
 ## Exécution
 
-Depuis `tp5/`, avec la configuration du TP3 :
+Depuis `tp5/`, avec la configuration du TP3 (dépôt [ticketflow-config](https://github.com/ossamaelmansouri/ticketflow-config)) :
 
 ```bash
-export CONFIG_GIT_URI=https://github.com/ossamaelmansouri/Ticketflow.git
-export CONFIG_SEARCH_PATHS=ticketflow-config
+export CONFIG_GIT_URI=https://github.com/ossamaelmansouri/ticketflow-config.git
 ./mvnw -DskipTests install
 ./mvnw -pl services/config-server spring-boot:run
 ./mvnw -pl services/discovery-server spring-boot:run

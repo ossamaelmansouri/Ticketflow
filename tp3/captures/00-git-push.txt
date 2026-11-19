@@ -1,11 +1,15 @@
 --- push v1 --- 
-To https://github.com/ossamaelmansouri/Ticketflow.git
-   7a49fec..1090d02  bundle/step4 -> main
-1090d02 TP3 : correctif du refresh (eureka.client.refresh.enable=false)
+To https://github.com/ossamaelmansouri/ticketflow-config.git
+ * [new branch]      bundle/step1 -> main
+e7903de Centraliser la configuration TicketFlow
 --- push v2 --- 
-To https://github.com/ossamaelmansouri/Ticketflow.git
-   1090d02..9563725  bundle/step5 -> main
-9563725 Modifier le message TicketFlow (TP3, v2, second passage)
+To https://github.com/ossamaelmansouri/ticketflow-config.git
+   e7903de..3dd8f4b  bundle/step2 -> main
+3dd8f4b Modifier le message TicketFlow
 --- push dev --- 
-Everything up-to-date
-9563725 Modifier le message TicketFlow (TP3, v2, second passage)
+To https://github.com/ossamaelmansouri/ticketflow-config.git
+   3dd8f4b..f8c5732  bundle/step3 -> main
+f8c5732 Ajouter le profil dev
+--- push config TP4/TP5 --- 
+To https://github.com/ossamaelmansouri/ticketflow-config.git
+   f8c5732..6237488  bundle/step4 -> main
