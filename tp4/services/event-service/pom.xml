@@ -79,6 +79,23 @@
 
 	<build>
 		<plugins>
+			<!-- TP4 (Ossama Elmansouri) : depuis le JDK 23, javac n'exécute plus les
+			     processeurs d'annotations trouvés sur le classpath. Avec le JDK 25 de la
+			     machine de test, Lombok n'était pas appliqué (getters introuvables).
+			     On déclare Lombok explicitement comme processeur. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>${lombok.version}</version>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
