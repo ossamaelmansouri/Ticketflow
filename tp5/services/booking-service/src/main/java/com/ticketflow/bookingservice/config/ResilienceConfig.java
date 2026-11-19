@@ -4,6 +4,8 @@ import feign.FeignException;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig.SlidingWindowType;
 import io.github.resilience4j.timelimiter.TimeLimiterConfig;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -48,25 +50,35 @@ public class ResilienceConfig {
                 .build();
     }
 
+    /** Instances déjà équipées des journaux d'événements (évite d'ajouter un abonné à chaque appel). */
+    private final Set<String> observedBreakers = ConcurrentHashMap.newKeySet();
+
     @Bean
     Customizer<Resilience4JCircuitBreakerFactory> eventServiceCircuitBreaker(EventServiceResilienceProperties p) {
         return factory -> {
-            factory.configure(builder -> builder
-                    .circuitBreakerConfig(circuitBreakerConfig(p))
-                    .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(p.timeLimit()).build()),
-                    INSTANCE);
-            // Journalise chaque changement d'état et chaque rejet : preuve observable du TP.
-            factory.addCircuitBreakerCustomizer(cb -> cb.getEventPublisher()
-                    .onStateTransition(e -> log.warn("Circuit {} : {}", e.getCircuitBreakerName(),
-                            e.getStateTransition()))
-                    .onCallNotPermitted(e -> log.warn("Circuit {} OPEN : appel refusé sans appel réseau",
-                            e.getCircuitBreakerName()))
-                    .onIgnoredError(e -> log.info("Circuit {} : erreur ignorée ({})", e.getCircuitBreakerName(),
-                            e.getThrowable().getClass().getSimpleName()))
-                    .onError(e -> log.info("Circuit {} : échec compté ({}), taux = {} %",
-                            e.getCircuitBreakerName(), e.getThrowable().getClass().getSimpleName(),
-                            cb.getMetrics().getFailureRate())),
-                    INSTANCE);
+            factory.configure(builder -> builder.circuitBreakerConfig(circuitBreakerConfig(p)), INSTANCE);
+            // Spring Cloud CircuitBreaker 5.0.x lit la limite de temps dans le
+            // TimeLimiterRegistry (et non dans configure(...)) : sans cette ligne,
+            // la valeur par défaut de 1 s s'applique (constaté pendant les tests).
+            factory.getTimeLimiterRegistry().addConfiguration(INSTANCE,
+                    TimeLimiterConfig.custom().timeoutDuration(p.timeLimit()).build());
+            // Le customizer est rappelé à chaque création du wrapper : on n'abonne
+            // les journaux qu'une fois par circuit.
+            factory.addCircuitBreakerCustomizer(cb -> {
+                if (!observedBreakers.add(cb.getName())) {
+                    return;
+                }
+                cb.getEventPublisher()
+                        .onStateTransition(e -> log.warn("Circuit {} : {}", e.getCircuitBreakerName(),
+                                e.getStateTransition()))
+                        .onCallNotPermitted(e -> log.warn("Circuit {} OPEN : appel refusé sans appel réseau",
+                                e.getCircuitBreakerName()))
+                        .onIgnoredError(e -> log.info("Circuit {} : erreur ignorée ({})", e.getCircuitBreakerName(),
+                                e.getThrowable().getClass().getSimpleName()))
+                        .onError(e -> log.info("Circuit {} : échec compté ({}, {} ms), taux = {} %",
+                                e.getCircuitBreakerName(), e.getThrowable().getClass().getSimpleName(),
+                                e.getElapsedDuration().toMillis(), cb.getMetrics().getFailureRate()));
+            }, INSTANCE);
             log.info("Circuit breaker {} configuré : {}", INSTANCE, p);
         };
     }

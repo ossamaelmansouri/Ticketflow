@@ -29,8 +29,8 @@ preparation)
 ignore-404)
   step "5a. Identifiant absent, répété 5 fois - attendu 404 à chaque fois"
   for i in $(seq 1 5); do
-    printf 'Réservation eventId=999 n°%d — ' "$i"
-    curl -sS -o /dev/null -w 'HTTP %{http_code} — %{time_total}s\n' -X POST "$RESERVATION_URL" \
+    printf 'Réservation eventId=999 n°%d - ' "$i"
+    curl -sS -o /dev/null -w 'HTTP %{http_code} - %{time_total}s\n' -X POST "$RESERVATION_URL" \
       -H 'Content-Type: application/json' --data '{"eventId":999,"customerId":1,"quantity":1}'
   done
   step "5b. Réservation valide ensuite - attendu 201 (les 404 n'ont pas ouvert le circuit)"
@@ -44,8 +44,8 @@ panne)
   printf '$ RESERVATION_URL=%s\n$ RESERVATION_JSON=%s\n' "$RESERVATION_URL" "$RESERVATION_JSON"
   codes=""
   for i in $(seq 1 10); do
-    printf "Réservation %02d — " "$i"
-    line=$(curl -sS -o /dev/null -w "HTTP %{http_code} — %{time_total}s" \
+    printf "Réservation %02d - " "$i"
+    line=$(curl -sS -o /dev/null -w "HTTP %{http_code} - %{time_total}s" \
       -X POST "$RESERVATION_URL" -H "Content-Type: application/json" --data "$RESERVATION_JSON")
     echo "$line"; codes="$codes ${line:5:3}"
   done
@@ -56,8 +56,8 @@ panne)
 retour)
   step "5d. event-service relancé, attente de la fin de l'état OPEN puis 3 appels de test (HALF_OPEN)"
   for i in 1 2 3 4; do
-    printf "Réservation de retour %d — " "$i"
-    curl -sS -o /dev/null -w "HTTP %{http_code} — %{time_total}s\n" \
+    printf "Réservation de retour %d - " "$i"
+    curl -sS -o /dev/null -w "HTTP %{http_code} - %{time_total}s\n" \
       -X POST "$RESERVATION_URL" -H "Content-Type: application/json" --data "$RESERVATION_JSON"
   done
   step "Vérifications automatiques"
