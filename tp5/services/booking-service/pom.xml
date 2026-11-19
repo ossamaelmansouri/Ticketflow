@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    TP4 - OpenFeign (TicketFlow) : booking-service appelle event-service
+    TP4 OpenFeign / TP5 Circuit Breaker (TicketFlow) : booking-service appelle event-service
     Auteur : Ossama Elmansouri
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -23,6 +23,11 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <!-- TP5 : circuit breaker Resilience4j (version gérée par le BOM Spring Cloud) -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
         </dependency>
         <!-- TP2 : découverte (apporte Spring Cloud LoadBalancer) -->
         <dependency>

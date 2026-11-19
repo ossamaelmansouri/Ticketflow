@@ -17,6 +17,9 @@ import com.ticketflow.bookingservice.exceptions.EventNotFoundException;
 import com.ticketflow.bookingservice.exceptions.UpstreamUnavailableException;
 import com.ticketflow.bookingservice.repos.BookingRepo;
 import feign.FeignException;
+import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
+import io.github.resilience4j.circuitbreaker.CircuitBreaker;
+import org.springframework.cloud.client.circuitbreaker.NoFallbackAvailableException;
 import feign.Request;
 import feign.Response;
 import java.math.BigDecimal;
@@ -105,5 +108,29 @@ class BookingServiceTest {
         assertThatThrownBy(() -> service.create(new BookingRequest(1L, 7L, 2)))
                 .isInstanceOf(BookingRuleException.class)
                 .hasMessageContaining("remaining 1");
+    }
+
+    // --- TP5 : erreurs vues à travers le circuit breaker ---
+
+    @Test
+    void wrappedNotFoundStaysNotFound() {
+        when(eventClient.getById(99L)).thenThrow(
+                new NoFallbackAvailableException("No fallback available.", feignError(404)));
+
+        assertThatThrownBy(() -> service.create(new BookingRequest(99L, 7L, 1)))
+                .isInstanceOf(EventNotFoundException.class);
+    }
+
+    @Test
+    void openCircuitBecomesUpstreamUnavailable() {
+        CircuitBreaker cb = CircuitBreaker.ofDefaults("EventClientgetByIdLong");
+        cb.transitionToOpenState();
+        when(eventClient.getById(1L)).thenThrow(new NoFallbackAvailableException("No fallback available.",
+                CallNotPermittedException.createCallNotPermittedException(cb)));
+
+        assertThatThrownBy(() -> service.create(new BookingRequest(1L, 7L, 1)))
+                .isInstanceOf(UpstreamUnavailableException.class)
+                .hasMessageContaining("OPEN");
+        verify(repo, never()).save(any());
     }
 }
