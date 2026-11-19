@@ -10,6 +10,12 @@ spring:
     gateway:
       server:
         webflux:
+          # TP2 section 9 (option) : routes générées à partir des services
+          # découverts dans Eureka (ex. /customer-service/api/customers).
+          discovery:
+            locator:
+              enabled: true
+              lower-case-service-id: true
           routes:
             - id: customer-service
               # TP2 : la cible n'est plus une adresse fixe. lb:// demande à
