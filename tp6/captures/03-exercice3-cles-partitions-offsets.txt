@@ -1,0 +1,51 @@
+
+===== Producteur avec clés (8 lignes) =====
+$ ./kafka-console-producer.sh --bootstrap-server kafka:9092 --topic ticketflow.payment.succeeded --property parse.key=true --property key.separator=:
+> booking-10:{"event":"PaymentSucceeded","bookingId":10}
+> booking-11:{"event":"PaymentSucceeded","bookingId":11}
+> booking-10:{"event":"BookingConfirmed","bookingId":10}
+> booking-12:{"event":"PaymentSucceeded","bookingId":12}
+> booking-11:{"event":"BookingConfirmed","bookingId":11}
+> booking-10:{"event":"TicketIssued","bookingId":10}
+> booking-12:{"event":"BookingConfirmed","bookingId":12}
+> booking-11:{"event":"TicketIssued","bookingId":11}
+
+
+===== Relecture avec partition, offset et clé =====
+$ ./kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic ticketflow.payment.succeeded --from-beginning --timeout-ms 8000 --property print.partition=true --property print.offset=true --property print.key=true
+Partition:0	Offset:0	booking-10	{"event":"PaymentSucceeded","bookingId":10}
+Partition:0	Offset:1	booking-10	{"event":"BookingConfirmed","bookingId":10}
+Partition:0	Offset:2	booking-10	{"event":"TicketIssued","bookingId":10}
+Partition:1	Offset:0	null	{"bookingId":1,"amount":300.00}
+Partition:1	Offset:1	null	{"bookingId":2,"amount":150.00}
+Partition:1	Offset:2	null	{"bookingId":3,"amount":90.00}
+Partition:1	Offset:3	booking-11	{"event":"PaymentSucceeded","bookingId":11}
+Partition:1	Offset:4	booking-12	{"event":"PaymentSucceeded","bookingId":12}
+Partition:1	Offset:5	booking-11	{"event":"BookingConfirmed","bookingId":11}
+Partition:1	Offset:6	booking-12	{"event":"BookingConfirmed","bookingId":12}
+Partition:1	Offset:7	booking-11	{"event":"TicketIssued","bookingId":11}
+[2026-11-19 21:27:31,272] ERROR Error processing message, terminating consumer process:  (org.apache.kafka.tools.consumer.ConsoleConsumer)
+org.apache.kafka.common.errors.TimeoutException: null
+Processed a total of 11 messages
+
+
+===== Offsets de fin par partition (somme attendue : 11) =====
+$ ./kafka-get-offsets.sh --bootstrap-server kafka:9092 --topic ticketflow.payment.succeeded
+ticketflow.payment.succeeded:0:3
+ticketflow.payment.succeeded:1:8
+ticketflow.payment.succeeded:2:0
+
+
+===== Offsets de début (--time -2) =====
+$ ./kafka-get-offsets.sh --bootstrap-server kafka:9092 --topic ticketflow.payment.succeeded --time -2
+ticketflow.payment.succeeded:0:0
+ticketflow.payment.succeeded:1:0
+ticketflow.payment.succeeded:2:0
+
+
+===== Lecture ciblée : la partition la plus remplie, à partir de l'offset 1, 2 messages =====
+$ ./kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic ticketflow.payment.succeeded --partition 1 --offset 1 --max-messages 2 --property print.offset=true --property print.partition=true
+Partition:1	Offset:1	{"bookingId":2,"amount":150.00}
+Partition:1	Offset:2	{"bookingId":3,"amount":90.00}
+Processed a total of 2 messages
+

@@ -1,0 +1,32 @@
+
+===== 1) Adresse « Docker » kafka:9092 depuis un conteneur du réseau kafka-tp : doit fonctionner =====
+$ docker run --rm --network kafka-tp apache/kafka:4.0.0 /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --list
+__consumer_offsets
+ticketflow.booking.cancelled
+ticketflow.booking.status
+ticketflow.payment.failed
+ticketflow.payment.succeeded
+
+
+===== 2) Adresse « hôte » localhost:9092 depuis ce même conteneur : doit échouer =====
+(l'énoncé répète par erreur kafka:9092 dans cette seconde commande ; le test porte sur localhost:9092)
+$ docker run --rm --network kafka-tp apache/kafka:4.0.0 /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
+[2026-11-19 21:30:29,782] WARN [AdminClient clientId=adminclient-1] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Node may not be available. (org.apache.kafka.clients.NetworkClient)
+[2026-11-19 21:30:29,878] WARN [AdminClient clientId=adminclient-1] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Node may not be available. (org.apache.kafka.clients.NetworkClient)
+[...]
+Error while executing topic command : Timed out waiting for a node assignment. Call: listTopics
+[2026-11-19 21:31:29,775] ERROR org.apache.kafka.common.errors.TimeoutException: Timed out waiting for a node assignment. Call: listTopics
+(durée : 62 s)
+
+===== 2 bis) Listener EXTERNAL joint depuis le réseau Docker (kafka:9094) : connexion initiale OK, puis adresse annoncée localhost:9092 injoignable =====
+$ docker run --rm --network kafka-tp apache/kafka:4.0.0 /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9094 --list
+[2026-11-19 21:31:32,403] WARN [AdminClient clientId=adminclient-1] Connection to node 1 (localhost/127.0.0.1:9092) could not be established. Node may not be available. (org.apache.kafka.clients.NetworkClient)
+[2026-11-19 21:31:32,526] WARN [AdminClient clientId=adminclient-1] Connection to node 1 (localhost/127.0.0.1:9092) could not be established. Node may not be available. (org.apache.kafka.clients.NetworkClient)
+[...]
+Error while executing topic command : Timed out waiting for a node assignment. Call: listTopics
+[2026-11-19 21:32:32,104] ERROR org.apache.kafka.common.errors.TimeoutException: Timed out waiting for a node assignment. Call: listTopics
+(durée : 62 s)
+
+===== 3) Depuis la machine hôte : le port localhost:9092 répond =====
+$ bash -c "echo > /dev/tcp/localhost/9092"   (test de connexion TCP depuis la machine)
+connexion TCP établie sur localhost:9092 (port publié vers le listener EXTERNAL)

@@ -1,0 +1,58 @@
+
+===== Docker =====
+Docker client 29.9.2 / serveur 29.9.2
+
+===== Essai avec le docker-compose.yml de l'énoncé (deux listeners sur le port 9092) =====
+$ docker compose -f docker-compose.enonce.yml up -d
+ Network kafka-tp Creating 
+ Network kafka-tp Creating 
+ Network kafka-tp Created 
+ Network kafka-tp Created 
+ Container kafka Creating 
+ Container kafka Created 
+ Container kafka Starting 
+ Container kafka Started 
+$ docker ps -a --filter name=kafka
+NAMES     STATUS
+kafka     Exited (1) 13 seconds ago
+$ docker compose -f docker-compose.enonce.yml logs kafka   (extrait)
+kafka  | Exception in thread "main" java.lang.IllegalArgumentException: requirement failed: Each listener must have a different port, listeners: PLAINTEXT://:9092,EXTERNAL://:9092,CONTROLLER://:9093 at scala.Predef$.require(Predef.scala:337) at kafka.utils.CoreUtils$.checkDuplicateListenerPorts(CoreUtils.scala:153) at kafka.utils.CoreUtils$.$anonfun$listenerListToEndPoints$8(CoreUtils.scala:184) at kafka.utils.CoreUtils$.$anonfun$listenerListToEndPoints$8$adapted(CoreUtils.scala:181) at scala.collection.immutable.HashMap.foreach(HashMap.scala:1115) at kafka.utils.CoreUtils$.validate$1(CoreUtils.scala:181) at kafka.utils.CoreUtils$.listenerListToEndPoints(CoreUtils.scala:217) at kafka.server.KafkaConfig.listeners(KafkaConfig.scala:498) at kafka.server.KafkaConfig.<init>(KafkaConfig.scala:293) at kafka.server.KafkaConfig.<init>(KafkaConfig.scala:158) at kafka.tools.StorageTool$.$anonfun$execute$1(StorageTool.scala:79) at scala.Option.flatMap(Option.scala:283) at kafka.tools.StorageTool$.execute(StorageTool.scala:79) at kafka.tools.StorageTool$.main(StorageTool.scala:46) at kafka.docker.KafkaDockerWrapper$.main(KafkaDockerWrapper.scala:57) at kafka.docker.KafkaDockerWrapper.main(KafkaDockerWrapper.scala)
+
+===== Démarrage avec le docker-compose.yml corrigé =====
+$ docker compose up -d
+ Network kafka-tp Creating 
+ Network kafka-tp Creating 
+ Network kafka-tp Created 
+ Network kafka-tp Created 
+ Container kafka Creating 
+ Container kafka Created 
+ Container kafka Starting 
+ Container kafka Started 
+$ docker compose logs kafka | grep "Kafka Server started"
+kafka  | [2026-11-19 21:26:30,558] INFO [KafkaRaftServer nodeId=1] Kafka Server started (kafka.server.KafkaRaftServer)
+$ docker ps --filter name=kafka
+NAMES     STATUS         PORTS
+kafka     Up 6 seconds   0.0.0.0:9092->9094/tcp, [::]:9092->9094/tcp
+
+$ ls kafka-*.sh | head -20
+kafka-acls.sh
+kafka-broker-api-versions.sh
+kafka-client-metrics.sh
+kafka-cluster.sh
+kafka-configs.sh
+kafka-console-consumer.sh
+kafka-console-producer.sh
+kafka-console-share-consumer.sh
+kafka-consumer-groups.sh
+kafka-consumer-perf-test.sh
+kafka-delegation-tokens.sh
+kafka-delete-records.sh
+kafka-dump-log.sh
+kafka-e2e-latency.sh
+kafka-features.sh
+kafka-get-offsets.sh
+kafka-groups.sh
+kafka-jmx.sh
+kafka-leader-election.sh
+kafka-log-dirs.sh
+

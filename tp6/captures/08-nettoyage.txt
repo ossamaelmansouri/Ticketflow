@@ -1,0 +1,58 @@
+
+===== Suppression des topics du TP =====
+$ ./kafka-topics.sh --bootstrap-server kafka:9092 --delete --topic ticketflow.payment.succeeded
+
+$ ./kafka-topics.sh --bootstrap-server kafka:9092 --delete --topic ticketflow.payment.failed
+
+$ ./kafka-topics.sh --bootstrap-server kafka:9092 --delete --topic ticketflow.booking.cancelled
+
+$ ./kafka-topics.sh --bootstrap-server kafka:9092 --delete --topic ticketflow.booking.status
+
+$ ./kafka-topics.sh --bootstrap-server kafka:9092 --list
+__consumer_offsets
+
+
+===== stop / start : les données du conteneur sont conservées =====
+$ ./kafka-topics.sh --bootstrap-server kafka:9092 --create --topic ticketflow.persistance.test --partitions 1 --replication-factor 1
+WARNING: Due to limitations in metric names, topics with a period ('.') or underscore ('_') could collide. To avoid issues it is best to use either, but not both.
+Created topic ticketflow.persistance.test.
+
+$ docker compose stop
+ Container kafka Stopping 
+ Container kafka Stopped 
+$ docker compose start
+ Container kafka Starting 
+ Container kafka Started 
+$ ./kafka-topics.sh --bootstrap-server kafka:9092 --list
+__consumer_offsets
+ticketflow.persistance.test
+
+
+===== down : le conteneur et ses données sont supprimés =====
+$ docker compose down
+ Container kafka Stopping 
+ Container kafka Stopped 
+ Container kafka Removing 
+ Container kafka Removed 
+ Network kafka-tp Removing 
+ Network kafka-tp Removed 
+$ docker compose up -d
+ Network kafka-tp Creating 
+ Network kafka-tp Creating 
+ Network kafka-tp Created 
+ Network kafka-tp Created 
+ Container kafka Creating 
+ Container kafka Created 
+ Container kafka Starting 
+ Container kafka Started 
+$ ./kafka-topics.sh --bootstrap-server kafka:9092 --list
+
+
+(liste vide : le topic ticketflow.persistance.test a disparu avec le conteneur)
+$ docker compose down
+ Container kafka Stopping 
+ Container kafka Stopped 
+ Container kafka Removing 
+ Container kafka Removed 
+ Network kafka-tp Removing 
+ Network kafka-tp Removed 

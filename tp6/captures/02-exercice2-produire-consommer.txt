@@ -1,0 +1,34 @@
+
+===== Terminal 2 : producteur, trois lignes =====
+$ ./kafka-console-producer.sh --bootstrap-server kafka:9092 --topic ticketflow.payment.succeeded 
+> {"bookingId":1,"amount":300.00}
+> {"bookingId":2,"amount":150.00}
+> {"bookingId":3,"amount":90.00}
+
+
+===== Terminal 1 : consommateur --from-beginning (les 3 messages) =====
+$ ./kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic ticketflow.payment.succeeded --from-beginning --timeout-ms 8000
+{"bookingId":1,"amount":300.00}
+{"bookingId":2,"amount":150.00}
+{"bookingId":3,"amount":90.00}
+[2026-11-19 21:26:59,323] ERROR Error processing message, terminating consumer process:  (org.apache.kafka.tools.consumer.ConsoleConsumer)
+org.apache.kafka.common.errors.TimeoutException: null
+Processed a total of 3 messages
+
+
+===== Constat : relecture --from-beginning (rien n'a été supprimé) =====
+$ ./kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic ticketflow.payment.succeeded --from-beginning --timeout-ms 8000
+{"bookingId":1,"amount":300.00}
+{"bookingId":2,"amount":150.00}
+{"bookingId":3,"amount":90.00}
+[2026-11-19 21:27:09,437] ERROR Error processing message, terminating consumer process:  (org.apache.kafka.tools.consumer.ConsoleConsumer)
+org.apache.kafka.common.errors.TimeoutException: null
+Processed a total of 3 messages
+
+
+===== Constat : sans --from-beginning, rien ne s'affiche (auto.offset.reset=latest) =====
+$ ./kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic ticketflow.payment.succeeded --timeout-ms 8000
+[2026-11-19 21:27:19,109] ERROR Error processing message, terminating consumer process:  (org.apache.kafka.tools.consumer.ConsoleConsumer)
+org.apache.kafka.common.errors.TimeoutException: null
+Processed a total of 0 messages
+

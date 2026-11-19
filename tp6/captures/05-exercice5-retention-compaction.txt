@@ -1,0 +1,37 @@
+
+===== Configuration du topic, rétention réduite à 1 minute, puis remise à la valeur par défaut =====
+$ ./kafka-configs.sh --bootstrap-server kafka:9092 --entity-type topics --entity-name ticketflow.payment.succeeded --describe
+Dynamic configs for topic ticketflow.payment.succeeded are:
+
+$ ./kafka-configs.sh --bootstrap-server kafka:9092 --entity-type topics --entity-name ticketflow.payment.succeeded --alter --add-config retention.ms=60000
+Completed updating config for topic ticketflow.payment.succeeded.
+
+$ ./kafka-configs.sh --bootstrap-server kafka:9092 --entity-type topics --entity-name ticketflow.payment.succeeded --describe
+Dynamic configs for topic ticketflow.payment.succeeded are:
+  retention.ms=60000 sensitive=false synonyms={DYNAMIC_TOPIC_CONFIG:retention.ms=60000}
+
+$ ./kafka-configs.sh --bootstrap-server kafka:9092 --entity-type topics --entity-name ticketflow.payment.succeeded --alter --delete-config retention.ms
+Completed updating config for topic ticketflow.payment.succeeded.
+
+$ ./kafka-configs.sh --bootstrap-server kafka:9092 --entity-type topics --entity-name ticketflow.payment.succeeded --describe
+Dynamic configs for topic ticketflow.payment.succeeded are:
+
+
+===== Optionnel : topic compacté ticketflow.booking.status =====
+$ ./kafka-topics.sh --bootstrap-server kafka:9092 --create --topic ticketflow.booking.status --partitions 1 --replication-factor 1 --config cleanup.policy=compact
+WARNING: Due to limitations in metric names, topics with a period ('.') or underscore ('_') could collide. To avoid issues it is best to use either, but not both.
+Created topic ticketflow.booking.status.
+
+$ ./kafka-console-producer.sh --bootstrap-server kafka:9092 --topic ticketflow.booking.status --property parse.key=true --property key.separator=:
+> booking-30:PENDING
+> booking-30:CONFIRMED
+> booking-30:CANCELLED
+
+$ ./kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic ticketflow.booking.status --from-beginning --timeout-ms 8000 --property print.key=true
+booking-30	PENDING
+booking-30	CONFIRMED
+booking-30	CANCELLED
+[2026-11-19 21:30:25,471] ERROR Error processing message, terminating consumer process:  (org.apache.kafka.tools.consumer.ConsoleConsumer)
+org.apache.kafka.common.errors.TimeoutException: null
+Processed a total of 3 messages
+

@@ -15,4 +15,4 @@ Le dossier [`ticketflow-config/`](ticketflow-config/) contient la configuration 
 | TP3 | [`tp3/`](tp3/) | Config Server + GitHub : configuration centralisée, refresh sans redémarrage, profil dev | Terminé |
 | TP4 | [`tp4/`](tp4/) | OpenFeign : booking-service appelle event-service par son nom Eureka, gestion des erreurs et délais | Terminé |
 | TP5 | [`tp5/`](tp5/) | Circuit Breaker Resilience4j : ouverture mesurée, 404 ignorés, HALF_OPEN puis CLOSED | Terminé |
-| TP6 | `tp6/` | — | À venir |
+| TP6 | [`tp6/`](tp6/) | Apache Kafka en ligne de commande (Docker, KRaft) : topics, clés, groupes, lag, rétention, réseau | Terminé |

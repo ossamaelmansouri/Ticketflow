@@ -1,0 +1,58 @@
+
+===== T1 et T2 : deux consommateurs du groupe notification-service (sans --from-beginning) =====
+[T1] $ ./kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic ticketflow.payment.succeeded --group notification-service  --property print.partition=true --property print.key=true
+[T2] $ ./kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic ticketflow.payment.succeeded --group notification-service  --property print.partition=true --property print.key=true
+$ ./kafka-consumer-groups.sh --bootstrap-server kafka:9092 --describe --group notification-service --members
+
+GROUP                CONSUMER-ID                             HOST            CLIENT-ID       #PARTITIONS     
+notification-service T2-71692209-5f9a-4408-a3e9-5a973ba57c41 /172.19.0.2     T2              1               
+notification-service T1-a24b54f4-ce66-4bb3-b451-fadfac048e6e /172.19.0.2     T1              2               
+
+
+===== T3 : booking-service publie 9 événements, clé = bookingId, réservations alternées =====
+$ ./kafka-console-producer.sh --bootstrap-server kafka:9092 --topic ticketflow.payment.succeeded --property parse.key=true --property key.separator=:
+> booking-40:{"event":"PaymentSucceeded","bookingId":40}
+> booking-41:{"event":"PaymentSucceeded","bookingId":41}
+> booking-42:{"event":"PaymentSucceeded","bookingId":42}
+> booking-40:{"event":"BookingConfirmed","bookingId":40}
+> booking-41:{"event":"BookingConfirmed","bookingId":41}
+> booking-42:{"event":"BookingConfirmed","bookingId":42}
+> booking-40:{"event":"TicketIssued","bookingId":40}
+> booking-41:{"event":"TicketIssued","bookingId":41}
+> booking-42:{"event":"TicketIssued","bookingId":42}
+
+--- sortie du terminal T1 ---
+Partition:0	booking-41	{"event":"PaymentSucceeded","bookingId":41}
+Partition:0	booking-41	{"event":"BookingConfirmed","bookingId":41}
+Partition:0	booking-41	{"event":"TicketIssued","bookingId":41}
+Partition:1	booking-40	{"event":"PaymentSucceeded","bookingId":40}
+Partition:1	booking-42	{"event":"PaymentSucceeded","bookingId":42}
+Partition:1	booking-40	{"event":"BookingConfirmed","bookingId":40}
+Partition:1	booking-42	{"event":"BookingConfirmed","bookingId":42}
+Partition:1	booking-40	{"event":"TicketIssued","bookingId":40}
+Partition:1	booking-42	{"event":"TicketIssued","bookingId":42}
+
+--- sortie du terminal T2 ---
+
+
+===== Arrêt de T1, puis trois nouveaux événements de booking-40 =====
+[T1] arrêté (Ctrl+C)
+$ ./kafka-console-producer.sh --bootstrap-server kafka:9092 --topic ticketflow.payment.succeeded --property parse.key=true --property key.separator=:
+> booking-40:{"event":"RefundRequested","bookingId":40}
+> booking-40:{"event":"RefundApproved","bookingId":40}
+> booking-40:{"event":"BookingCancelled","bookingId":40}
+
+(sortie de T2 vidée avant cette publication)
+--- sortie du terminal T2 ---
+Partition:1	booking-40	{"event":"RefundRequested","bookingId":40}
+Partition:1	booking-40	{"event":"RefundApproved","bookingId":40}
+Partition:1	booking-40	{"event":"BookingCancelled","bookingId":40}
+
+$ ./kafka-consumer-groups.sh --bootstrap-server kafka:9092 --describe --group notification-service
+
+GROUP                TOPIC                        PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG             CONSUMER-ID                             HOST            CLIENT-ID
+notification-service ticketflow.payment.succeeded 0          10              10              0               T2-71692209-5f9a-4408-a3e9-5a973ba57c41 /172.19.0.2     T2
+notification-service ticketflow.payment.succeeded 2          7               7               0               T2-71692209-5f9a-4408-a3e9-5a973ba57c41 /172.19.0.2     T2
+notification-service ticketflow.payment.succeeded 1          20              20              0               T2-71692209-5f9a-4408-a3e9-5a973ba57c41 /172.19.0.2     T2
+
+[T2] arrêté (Ctrl+C)

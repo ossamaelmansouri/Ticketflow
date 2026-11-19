@@ -1,0 +1,38 @@
+
+===== Créer, lister et décrire ticketflow.payment.succeeded =====
+$ ./kafka-topics.sh --bootstrap-server kafka:9092 --create --topic ticketflow.payment.succeeded --partitions 3 --replication-factor 1
+WARNING: Due to limitations in metric names, topics with a period ('.') or underscore ('_') could collide. To avoid issues it is best to use either, but not both.
+Created topic ticketflow.payment.succeeded.
+
+$ ./kafka-topics.sh --bootstrap-server kafka:9092 --list
+ticketflow.payment.succeeded
+
+$ ./kafka-topics.sh --bootstrap-server kafka:9092 --describe --topic ticketflow.payment.succeeded
+Topic: ticketflow.payment.succeeded	TopicId: KzB410vjSJiCgpgwJsbxNQ	PartitionCount: 3	ReplicationFactor: 1	Configs: 
+	Topic: ticketflow.payment.succeeded	Partition: 0	Leader: 1	Replicas: 1	Isr: 1	Elr: 	LastKnownElr: 
+	Topic: ticketflow.payment.succeeded	Partition: 1	Leader: 1	Replicas: 1	Isr: 1	Elr: 	LastKnownElr: 
+	Topic: ticketflow.payment.succeeded	Partition: 2	Leader: 1	Replicas: 1	Isr: 1	Elr: 	LastKnownElr: 
+
+
+===== Les deux autres topics du chapitre =====
+$ ./kafka-topics.sh --bootstrap-server kafka:9092 --create --topic ticketflow.payment.failed --partitions 3 --replication-factor 1
+WARNING: Due to limitations in metric names, topics with a period ('.') or underscore ('_') could collide. To avoid issues it is best to use either, but not both.
+Created topic ticketflow.payment.failed.
+
+$ ./kafka-topics.sh --bootstrap-server kafka:9092 --create --topic ticketflow.booking.cancelled --partitions 3 --replication-factor 1
+WARNING: Due to limitations in metric names, topics with a period ('.') or underscore ('_') could collide. To avoid issues it is best to use either, but not both.
+Created topic ticketflow.booking.cancelled.
+
+$ ./kafka-topics.sh --bootstrap-server kafka:9092 --list
+ticketflow.booking.cancelled
+ticketflow.payment.failed
+ticketflow.payment.succeeded
+
+
+===== Essai : facteur de réplication 3 sur un seul broker (erreur attendue) =====
+$ ./kafka-topics.sh --bootstrap-server kafka:9092 --create --topic ticketflow.test.rf3 --partitions 3 --replication-factor 3
+WARNING: Due to limitations in metric names, topics with a period ('.') or underscore ('_') could collide. To avoid issues it is best to use either, but not both.
+Error while executing topic command : Unable to replicate the partition 3 time(s): The target replication factor of 3 cannot be reached because only 1 broker(s) are registered.
+[2026-11-19 21:26:46,450] ERROR org.apache.kafka.common.errors.InvalidReplicationFactorException: Unable to replicate the partition 3 time(s): The target replication factor of 3 cannot be reached because only 1 broker(s) are registered.
+ (org.apache.kafka.tools.TopicCommand)
+
