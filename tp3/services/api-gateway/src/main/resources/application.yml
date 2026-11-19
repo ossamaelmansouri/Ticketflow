@@ -1,0 +1,47 @@
+# TP1 - Gateway API / TP2 - Discovery Service (TicketFlow)
+# Auteur : Ossama Elmansouri
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      server:
+        webflux:
+          # TP2 section 9 (option) : routes générées à partir des services
+          # découverts dans Eureka (ex. /customer-service/api/customers).
+          discovery:
+            locator:
+              enabled: true
+              lower-case-service-id: true
+          routes:
+            - id: customer-service
+              # TP2 : la cible n'est plus une adresse fixe. lb:// demande à
+              # Spring Cloud LoadBalancer de choisir une instance de
+              # customer-service parmi celles connues d'Eureka.
+              uri: lb://customer-service
+              predicates:
+                - Path=/api/customers/**
+              filters:
+                - AddResponseHeader=X-Served-By, api-gateway
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    # Même raison que pour customer-service : inscrire l'IP, pas le nom de machine.
+    prefer-ip-address: true
+
+management:
+  # Spring Boot 4 : l'endpoint "gateway" doit être activé (en lecture seule)
+  # en plus d'être exposé, sinon /actuator/gateway/routes répond 404.
+  endpoint:
+    gateway:
+      access: read-only
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
