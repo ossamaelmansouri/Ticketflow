@@ -1,0 +1,9 @@
+
+===== 5d. event-service relancé, attente de la fin de l'état OPEN puis 3 appels de test (HALF_OPEN) =====
+Réservation de retour 1 - HTTP 201 - 0.034909s
+Réservation de retour 2 - HTTP 201 - 0.023360s
+Réservation de retour 3 - HTTP 201 - 0.011557s
+Réservation de retour 4 - HTTP 201 - 0.012546s
+
+===== Vérifications automatiques =====
+OK : le service répond de nouveau (circuit refermé) (201)

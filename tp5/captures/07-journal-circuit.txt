@@ -1,0 +1,51 @@
+22:10:06.808  [EventClient#getById] ---> GET http://event-service/api/events/999 HTTP/1.1
+22:10:06.881  [EventClient#getById] <--- HTTP/1.1 404 (72ms)
+22:10:06.885  Circuit EventClientgetByIdLong : erreur ignorée (NotFound)
+22:10:06.950  [EventClient#getById] ---> GET http://event-service/api/events/999 HTTP/1.1
+22:10:06.955  [EventClient#getById] <--- HTTP/1.1 404 (4ms)
+22:10:06.955  Circuit EventClientgetByIdLong : erreur ignorée (NotFound)
+22:10:07.011  [EventClient#getById] ---> GET http://event-service/api/events/999 HTTP/1.1
+22:10:07.015  [EventClient#getById] <--- HTTP/1.1 404 (4ms)
+22:10:07.016  Circuit EventClientgetByIdLong : erreur ignorée (NotFound)
+22:10:07.071  [EventClient#getById] ---> GET http://event-service/api/events/999 HTTP/1.1
+22:10:07.075  [EventClient#getById] <--- HTTP/1.1 404 (4ms)
+22:10:07.076  Circuit EventClientgetByIdLong : erreur ignorée (NotFound)
+22:10:07.134  [EventClient#getById] ---> GET http://event-service/api/events/999 HTTP/1.1
+22:10:07.138  [EventClient#getById] <--- HTTP/1.1 404 (4ms)
+22:10:07.139  Circuit EventClientgetByIdLong : erreur ignorée (NotFound)
+22:10:07.210  [EventClient#getById] ---> GET http://event-service/api/events/1 HTTP/1.1
+22:10:07.214  [EventClient#getById] <--- HTTP/1.1 200 (4ms)
+22:10:07.361  [EventClient#getById] ---> GET http://event-service/api/events/999 HTTP/1.1
+22:10:07.365  [EventClient#getById] <--- HTTP/1.1 404 (3ms)
+22:10:07.366  Circuit EventClientgetByIdLong : erreur ignorée (NotFound)
+22:10:07.430  [EventClient#getById] ---> GET http://event-service/api/events/1 HTTP/1.1
+22:10:07.434  [EventClient#getById] <--- HTTP/1.1 200 (4ms)
+22:10:13.259  [EventClient#getById] ---> GET http://event-service/api/events/1 HTTP/1.1
+22:10:15.262  [EventClient#getById] <--- ERROR SocketTimeoutException: Connect timed out (2003ms)
+22:10:15.263  Circuit EventClientgetByIdLong : échec compté (RetryableException, 2004 ms), taux = -1.0 %
+22:10:15.355  [EventClient#getById] ---> GET http://event-service/api/events/1 HTTP/1.1
+22:10:17.356  [EventClient#getById] <--- ERROR SocketTimeoutException: Connect timed out (2001ms)
+22:10:17.356  Circuit EventClientgetByIdLong : échec compté (RetryableException, 2002 ms), taux = -1.0 %
+22:10:17.457  [EventClient#getById] ---> GET http://event-service/api/events/1 HTTP/1.1
+22:10:19.459  [EventClient#getById] <--- ERROR SocketTimeoutException: Connect timed out (2001ms)
+22:10:19.459  Circuit EventClientgetByIdLong : échec compté (RetryableException, 2002 ms), taux = -1.0 %
+22:10:19.462  Circuit EventClientgetByIdLong : State transition from CLOSED to OPEN
+22:10:19.553  Circuit EventClientgetByIdLong OPEN : appel refusé sans appel réseau
+22:10:19.622  Circuit EventClientgetByIdLong OPEN : appel refusé sans appel réseau
+22:10:19.683  Circuit EventClientgetByIdLong OPEN : appel refusé sans appel réseau
+22:10:19.769  Circuit EventClientgetByIdLong OPEN : appel refusé sans appel réseau
+22:10:19.847  Circuit EventClientgetByIdLong OPEN : appel refusé sans appel réseau
+22:10:19.942  Circuit EventClientgetByIdLong OPEN : appel refusé sans appel réseau
+22:10:20.009  Circuit EventClientgetByIdLong OPEN : appel refusé sans appel réseau
+22:10:44.247  Circuit EventClientgetByIdLong : State transition from OPEN to HALF_OPEN
+22:10:44.247  [EventClient#getById] ---> GET http://event-service/api/events/1 HTTP/1.1
+22:10:44.253  [EventClient#getById] <--- HTTP/1.1 200 (6ms)
+22:10:44.326  [EventClient#getById] ---> GET http://event-service/api/events/1 HTTP/1.1
+22:10:44.330  [EventClient#getById] <--- HTTP/1.1 200 (3ms)
+22:10:44.388  [EventClient#getById] ---> GET http://event-service/api/events/1 HTTP/1.1
+22:10:44.392  [EventClient#getById] <--- HTTP/1.1 200 (3ms)
+22:10:44.394  Circuit EventClientgetByIdLong : State transition from HALF_OPEN to CLOSED
+22:10:44.453  [EventClient#getById] ---> GET http://event-service/api/events/1 HTTP/1.1
+22:10:44.458  [EventClient#getById] <--- HTTP/1.1 200 (4ms)
+22:10:44.517  [EventClient#getById] ---> GET http://event-service/api/events/1 HTTP/1.1
+22:10:44.521  [EventClient#getById] <--- HTTP/1.1 200 (3ms)

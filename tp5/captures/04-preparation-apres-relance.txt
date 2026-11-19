@@ -1,0 +1,17 @@
+
+===== Préparation : événement 1 créé et publié sur event-service =====
+$ curl -s -i -X POST http://localhost:8082/api/events -H Content-Type: application/json -d {"title":"Concert Gnaoua","description":"Soiree TP5","venue":"Casablanca","startsAt":"2027-03-20T20:00:00Z","price":150.00,"capacity":50}
+HTTP/1.1 201 
+Location: http://localhost:8082/api/events/1
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 19 Nov 2026 21:10:32 GMT
+
+{"id":1,"title":"Concert Gnaoua","description":"Soiree TP5","venue":"Casablanca","startsAt":"2027-03-20T20:00:00Z","price":150.00,"capacity":50,"status":"DRAFT","createdAt":"2026-11-19T21:10:32.477072600Z"}
+$ curl -s -i -X POST http://localhost:8082/api/events/1/publish
+HTTP/1.1 200 
+Content-Type: application/json
+Content-Length: 207
+Date: Thu, 19 Nov 2026 21:10:32 GMT
+
+{"id":1,"title":"Concert Gnaoua","description":"Soiree TP5","venue":"Casablanca","startsAt":"2027-03-20T20:00:00Z","price":150.00,"capacity":50,"status":"PUBLISHED","createdAt":"2026-11-19T21:10:32.477073Z"}

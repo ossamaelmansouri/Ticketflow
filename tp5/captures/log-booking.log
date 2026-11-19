@@ -1,0 +1,149 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------< com.ticketflow:booking-service >-------------------
+[INFO] Building booking-service 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.8:run (default-cli) > test-compile @ booking-service >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ booking-service ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ booking-service ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ booking-service ---
+[INFO] Copying 1 resource from src\test\resources to target\test-classes
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ booking-service ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] <<< spring-boot:4.0.8:run (default-cli) < test-compile @ booking-service <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.8:run (default-cli) @ booking-service ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.8)
+
+2026-11-19T22:09:07.026+01:00  INFO 15312 --- [booking-service] [           main] c.t.b.BookingServiceApplication          : Starting BookingServiceApplication using Java 25.0.2 with PID 15312 (C:\Users\elman\Documents\Ticketflow\tp5\services\booking-service\target\classes started by elman in C:\Users\elman\Documents\Ticketflow\tp5\services\booking-service)
+2026-11-19T22:09:07.028+01:00  INFO 15312 --- [booking-service] [           main] c.t.b.BookingServiceApplication          : No active profile set, falling back to 1 default profile: "default"
+2026-11-19T22:09:07.067+01:00  INFO 15312 --- [booking-service] [           main] o.s.c.c.c.ConfigServerConfigDataLoader   : Fetching config from server at : http://localhost:8888
+2026-11-19T22:09:07.067+01:00  INFO 15312 --- [booking-service] [           main] o.s.c.c.c.ConfigServerConfigDataLoader   : Located environment: name=booking-service, profiles=[default], label=main, version=2179a1a06fb38abafa26b7c535cf6589daf8eacf, state=
+2026-11-19T22:09:07.747+01:00  INFO 15312 --- [booking-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-19T22:09:07.848+01:00  INFO 15312 --- [booking-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 91 ms. Found 1 JPA repository interface.
+2026-11-19T22:09:08.152+01:00  INFO 15312 --- [booking-service] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=baf84be2-48e3-3a49-a465-d9144d31ebba
+2026-11-19T22:09:08.651+01:00  INFO 15312 --- [booking-service] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8083 (http)
+2026-11-19T22:09:08.663+01:00  INFO 15312 --- [booking-service] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-11-19T22:09:08.663+01:00  INFO 15312 --- [booking-service] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.24]
+2026-11-19T22:09:08.719+01:00  INFO 15312 --- [booking-service] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1650 ms
+2026-11-19T22:09:09.066+01:00  INFO 15312 --- [booking-service] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-19T22:09:09.106+01:00  INFO 15312 --- [booking-service] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.24.Final
+2026-11-19T22:09:09.454+01:00  INFO 15312 --- [booking-service] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-19T22:09:09.481+01:00  INFO 15312 --- [booking-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-11-19T22:09:09.624+01:00  INFO 15312 --- [booking-service] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:a8cdb242-25da-45d8-a69b-348a839b8a42 user=SA
+2026-11-19T22:09:09.625+01:00  INFO 15312 --- [booking-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-11-19T22:09:09.677+01:00  INFO 15312 --- [booking-service] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:a8cdb242-25da-45d8-a69b-348a839b8a42]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: A8CDB242-25DA-45D8-A69B-348A839B8A42/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-19T22:09:10.374+01:00  INFO 15312 --- [booking-service] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-19T22:09:10.406+01:00  INFO 15312 --- [booking-service] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-19T22:09:10.604+01:00  INFO 15312 --- [booking-service] [           main] o.s.c.openfeign.FeignClientFactoryBean   : For 'event-service' URL not provided. Will try picking an instance via load-balancing.
+2026-11-19T22:09:10.696+01:00  INFO 15312 --- [booking-service] [           main] c.t.b.config.ResilienceConfig            : Circuit breaker EventClientgetByIdLong configuré : EventServiceResilienceProperties[slidingWindowSize=10, minimumNumberOfCalls=5, failureRateThreshold=50.0, waitInOpenState=PT10S, permittedCallsInHalfOpenState=3, timeLimit=PT4S]
+2026-11-19T22:09:10.809+01:00  INFO 15312 --- [booking-service] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-11-19T22:09:12.305+01:00  INFO 15312 --- [booking-service] [           main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestClient.
+2026-11-19T22:09:12.366+01:00  WARN 15312 --- [booking-service] [           main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2026-11-19T22:09:12.388+01:00  INFO 15312 --- [booking-service] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoints beneath base path '/actuator'
+2026-11-19T22:09:12.470+01:00  INFO 15312 --- [booking-service] [           main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
+2026-11-19T22:09:12.490+01:00  INFO 15312 --- [booking-service] [           main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
+2026-11-19T22:09:12.492+01:00  INFO 15312 --- [booking-service] [           main] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-11-19T22:09:12.499+01:00  INFO 15312 --- [booking-service] [           main] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2026-11-19T22:09:12.499+01:00  INFO 15312 --- [booking-service] [           main] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2026-11-19T22:09:12.499+01:00  INFO 15312 --- [booking-service] [           main] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2026-11-19T22:09:12.499+01:00  INFO 15312 --- [booking-service] [           main] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2026-11-19T22:09:12.499+01:00  INFO 15312 --- [booking-service] [           main] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2026-11-19T22:09:12.499+01:00  INFO 15312 --- [booking-service] [           main] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
+2026-11-19T22:09:12.499+01:00  INFO 15312 --- [booking-service] [           main] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2026-11-19T22:09:12.744+01:00  INFO 15312 --- [booking-service] [           main] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2026-11-19T22:09:12.746+01:00  INFO 15312 --- [booking-service] [           main] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30
+2026-11-19T22:09:12.747+01:00  INFO 15312 --- [booking-service] [           main] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4
+2026-11-19T22:09:12.748+01:00  INFO 15312 --- [booking-service] [           main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1795122552747 with initial instances count: 1
+2026-11-19T22:09:12.755+01:00  INFO 15312 --- [booking-service] [           main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application BOOKING-SERVICE with eureka with status UP
+2026-11-19T22:09:12.756+01:00  INFO 15312 --- [booking-service] [           main] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1795122552756, current=UP, previous=STARTING]
+2026-11-19T22:09:12.757+01:00  INFO 15312 --- [booking-service] [foReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_BOOKING-SERVICE/ossamaelm06.mshome.net:booking-service:8083: registering service...
+2026-11-19T22:09:12.770+01:00  INFO 15312 --- [booking-service] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8083 (http) with context path '/'
+2026-11-19T22:09:12.770+01:00  INFO 15312 --- [booking-service] [           main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8083
+2026-11-19T22:09:12.781+01:00  INFO 15312 --- [booking-service] [           main] c.t.b.BookingServiceApplication          : Started BookingServiceApplication in 7.389 seconds (process running for 7.867)
+2026-11-19T22:09:12.782+01:00  INFO 15312 --- [booking-service] [foReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_BOOKING-SERVICE/ossamaelm06.mshome.net:booking-service:8083 - registration status: 204
+2026-11-19T22:09:31.281+01:00  INFO 15312 --- [booking-service] [nio-8083-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-11-19T22:09:31.281+01:00  INFO 15312 --- [booking-service] [nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-11-19T22:09:31.283+01:00  INFO 15312 --- [booking-service] [nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-11-19T22:10:06.808+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] ---> GET http://event-service/api/events/999 HTTP/1.1
+2026-11-19T22:10:06.881+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] <--- HTTP/1.1 404 (72ms)
+2026-11-19T22:10:06.885+01:00  INFO 15312 --- [booking-service] [nio-8083-exec-2] c.t.b.config.ResilienceConfig            : Circuit EventClientgetByIdLong : erreur ignorée (NotFound)
+2026-11-19T22:10:06.950+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] ---> GET http://event-service/api/events/999 HTTP/1.1
+2026-11-19T22:10:06.955+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] <--- HTTP/1.1 404 (4ms)
+2026-11-19T22:10:06.955+01:00  INFO 15312 --- [booking-service] [nio-8083-exec-4] c.t.b.config.ResilienceConfig            : Circuit EventClientgetByIdLong : erreur ignorée (NotFound)
+2026-11-19T22:10:07.011+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] ---> GET http://event-service/api/events/999 HTTP/1.1
+2026-11-19T22:10:07.015+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] <--- HTTP/1.1 404 (4ms)
+2026-11-19T22:10:07.016+01:00  INFO 15312 --- [booking-service] [nio-8083-exec-7] c.t.b.config.ResilienceConfig            : Circuit EventClientgetByIdLong : erreur ignorée (NotFound)
+2026-11-19T22:10:07.071+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] ---> GET http://event-service/api/events/999 HTTP/1.1
+2026-11-19T22:10:07.075+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] <--- HTTP/1.1 404 (4ms)
+2026-11-19T22:10:07.076+01:00  INFO 15312 --- [booking-service] [nio-8083-exec-8] c.t.b.config.ResilienceConfig            : Circuit EventClientgetByIdLong : erreur ignorée (NotFound)
+2026-11-19T22:10:07.134+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] ---> GET http://event-service/api/events/999 HTTP/1.1
+2026-11-19T22:10:07.138+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] <--- HTTP/1.1 404 (4ms)
+2026-11-19T22:10:07.139+01:00  INFO 15312 --- [booking-service] [io-8083-exec-10] c.t.b.config.ResilienceConfig            : Circuit EventClientgetByIdLong : erreur ignorée (NotFound)
+2026-11-19T22:10:07.210+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] ---> GET http://event-service/api/events/1 HTTP/1.1
+2026-11-19T22:10:07.214+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] <--- HTTP/1.1 200 (4ms)
+2026-11-19T22:10:07.361+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] ---> GET http://event-service/api/events/999 HTTP/1.1
+2026-11-19T22:10:07.365+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] <--- HTTP/1.1 404 (3ms)
+2026-11-19T22:10:07.366+01:00  INFO 15312 --- [booking-service] [nio-8083-exec-4] c.t.b.config.ResilienceConfig            : Circuit EventClientgetByIdLong : erreur ignorée (NotFound)
+2026-11-19T22:10:07.430+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] ---> GET http://event-service/api/events/1 HTTP/1.1
+2026-11-19T22:10:07.434+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] <--- HTTP/1.1 200 (4ms)
+2026-11-19T22:10:13.259+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] ---> GET http://event-service/api/events/1 HTTP/1.1
+2026-11-19T22:10:15.262+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] <--- ERROR SocketTimeoutException: Connect timed out (2003ms)
+2026-11-19T22:10:15.263+01:00  INFO 15312 --- [booking-service] [nio-8083-exec-8] c.t.b.config.ResilienceConfig            : Circuit EventClientgetByIdLong : échec compté (RetryableException, 2004 ms), taux = -1.0 %
+2026-11-19T22:10:15.355+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] ---> GET http://event-service/api/events/1 HTTP/1.1
+2026-11-19T22:10:17.356+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] <--- ERROR SocketTimeoutException: Connect timed out (2001ms)
+2026-11-19T22:10:17.356+01:00  INFO 15312 --- [booking-service] [nio-8083-exec-9] c.t.b.config.ResilienceConfig            : Circuit EventClientgetByIdLong : échec compté (RetryableException, 2002 ms), taux = -1.0 %
+2026-11-19T22:10:17.457+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] ---> GET http://event-service/api/events/1 HTTP/1.1
+2026-11-19T22:10:19.459+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] <--- ERROR SocketTimeoutException: Connect timed out (2001ms)
+2026-11-19T22:10:19.459+01:00  INFO 15312 --- [booking-service] [io-8083-exec-10] c.t.b.config.ResilienceConfig            : Circuit EventClientgetByIdLong : échec compté (RetryableException, 2002 ms), taux = -1.0 %
+2026-11-19T22:10:19.462+01:00  WARN 15312 --- [booking-service] [io-8083-exec-10] c.t.b.config.ResilienceConfig            : Circuit EventClientgetByIdLong : State transition from CLOSED to OPEN
+2026-11-19T22:10:19.553+01:00  WARN 15312 --- [booking-service] [nio-8083-exec-1] c.t.b.config.ResilienceConfig            : Circuit EventClientgetByIdLong OPEN : appel refusé sans appel réseau
+2026-11-19T22:10:19.622+01:00  WARN 15312 --- [booking-service] [nio-8083-exec-2] c.t.b.config.ResilienceConfig            : Circuit EventClientgetByIdLong OPEN : appel refusé sans appel réseau
+2026-11-19T22:10:19.683+01:00  WARN 15312 --- [booking-service] [nio-8083-exec-3] c.t.b.config.ResilienceConfig            : Circuit EventClientgetByIdLong OPEN : appel refusé sans appel réseau
+2026-11-19T22:10:19.769+01:00  WARN 15312 --- [booking-service] [nio-8083-exec-4] c.t.b.config.ResilienceConfig            : Circuit EventClientgetByIdLong OPEN : appel refusé sans appel réseau
+2026-11-19T22:10:19.847+01:00  WARN 15312 --- [booking-service] [nio-8083-exec-6] c.t.b.config.ResilienceConfig            : Circuit EventClientgetByIdLong OPEN : appel refusé sans appel réseau
+2026-11-19T22:10:19.942+01:00  WARN 15312 --- [booking-service] [nio-8083-exec-7] c.t.b.config.ResilienceConfig            : Circuit EventClientgetByIdLong OPEN : appel refusé sans appel réseau
+2026-11-19T22:10:20.009+01:00  WARN 15312 --- [booking-service] [nio-8083-exec-5] c.t.b.config.ResilienceConfig            : Circuit EventClientgetByIdLong OPEN : appel refusé sans appel réseau
+2026-11-19T22:10:44.247+01:00  WARN 15312 --- [booking-service] [nio-8083-exec-8] c.t.b.config.ResilienceConfig            : Circuit EventClientgetByIdLong : State transition from OPEN to HALF_OPEN
+2026-11-19T22:10:44.247+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] ---> GET http://event-service/api/events/1 HTTP/1.1
+2026-11-19T22:10:44.253+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] <--- HTTP/1.1 200 (6ms)
+2026-11-19T22:10:44.326+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] ---> GET http://event-service/api/events/1 HTTP/1.1
+2026-11-19T22:10:44.330+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] <--- HTTP/1.1 200 (3ms)
+2026-11-19T22:10:44.388+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] ---> GET http://event-service/api/events/1 HTTP/1.1
+2026-11-19T22:10:44.392+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] <--- HTTP/1.1 200 (3ms)
+2026-11-19T22:10:44.394+01:00  WARN 15312 --- [booking-service] [nio-8083-exec-2] c.t.b.config.ResilienceConfig            : Circuit EventClientgetByIdLong : State transition from HALF_OPEN to CLOSED
+2026-11-19T22:10:44.453+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] ---> GET http://event-service/api/events/1 HTTP/1.1
+2026-11-19T22:10:44.458+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] <--- HTTP/1.1 200 (4ms)
+2026-11-19T22:10:44.517+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] ---> GET http://event-service/api/events/1 HTTP/1.1
+2026-11-19T22:10:44.521+01:00 DEBUG 15312 --- [booking-service] [pool-2-thread-1] c.t.bookingservice.clients.EventClient   : [EventClient#getById] <--- HTTP/1.1 200 (3ms)

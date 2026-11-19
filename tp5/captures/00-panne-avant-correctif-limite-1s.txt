@@ -1,0 +1,18 @@
+# Premier passage (avant correctif) : limite de temps restée à 1 s au lieu de 4 s
+
+===== 5c. event-service arrêté : 10 réservations séquentielles =====
+$ RESERVATION_URL=http://localhost:8083/api/bookings
+$ RESERVATION_JSON={"eventId":1,"customerId":1,"quantity":1}
+Réservation 01 - HTTP 503 - 1.016873s
+Réservation 02 - HTTP 503 - 1.005632s
+Réservation 03 - HTTP 503 - 1.019632s
+Réservation 04 - HTTP 503 - 0.003852s
+Réservation 05 - HTTP 503 - 0.003570s
+Réservation 06 - HTTP 503 - 0.004426s
+Réservation 07 - HTTP 503 - 0.027443s
+Réservation 08 - HTTP 503 - 0.003549s
+Réservation 09 - HTTP 503 - 0.024213s
+Réservation 10 - HTTP 503 - 0.020931s
+
+===== Vérifications automatiques =====
+OK : aucune des 10 réservations confirmée (toutes 503) (0)

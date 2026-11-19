@@ -1,0 +1,21 @@
+
+===== 5a. Identifiant absent, répété 5 fois - attendu 404 à chaque fois =====
+Réservation eventId=999 n°1 - HTTP 404 - 0.146809s
+Réservation eventId=999 n°2 - HTTP 404 - 0.009943s
+Réservation eventId=999 n°3 - HTTP 404 - 0.008791s
+Réservation eventId=999 n°4 - HTTP 404 - 0.008685s
+Réservation eventId=999 n°5 - HTTP 404 - 0.009424s
+
+===== 5b. Réservation valide ensuite - attendu 201 (les 404 n'ont pas ouvert le circuit) =====
+$ curl -sS -i -X POST http://localhost:8083/api/bookings -H Content-Type: application/json --data {"eventId":1,"customerId":1,"quantity":1}
+HTTP/1.1 201 
+Location: http://localhost:8083/api/bookings/1
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 19 Nov 2026 21:10:07 GMT
+
+{"id":1,"eventId":1,"eventTitle":"Concert Gnaoua","customerId":1,"quantity":1,"unitPrice":150.00,"totalPrice":150.00,"createdAt":"2026-11-19T21:10:07.264970Z"}
+
+===== Vérifications automatiques =====
+OK : id absent → 404 (404)
+OK : réservation valide après les 404 → 201 (201)

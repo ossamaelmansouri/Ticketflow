@@ -1,0 +1,57 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------------< com.ticketflow:config-server >--------------------
+[INFO] Building config-server 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.8:run (default-cli) > test-compile @ config-server >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ config-server ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ config-server ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ config-server ---
+[INFO] skip non existing resourceDirectory C:\Users\elman\Documents\Ticketflow\tp5\services\config-server\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ config-server ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] <<< spring-boot:4.0.8:run (default-cli) < test-compile @ config-server <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.8:run (default-cli) @ config-server ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.8)
+
+2026-11-19T22:08:12.802+01:00  INFO 22212 --- [config-server] [           main] c.t.c.ConfigServerApplication            : Starting ConfigServerApplication using Java 25.0.2 with PID 22212 (C:\Users\elman\Documents\Ticketflow\tp5\services\config-server\target\classes started by elman in C:\Users\elman\Documents\Ticketflow\tp5\services\config-server)
+2026-11-19T22:08:12.804+01:00  INFO 22212 --- [config-server] [           main] c.t.c.ConfigServerApplication            : No active profile set, falling back to 1 default profile: "default"
+2026-11-19T22:08:13.474+01:00  INFO 22212 --- [config-server] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=ccb5fd86-7074-3536-991a-05a904704784
+2026-11-19T22:08:13.702+01:00  INFO 22212 --- [config-server] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8888 (http)
+2026-11-19T22:08:13.714+01:00  INFO 22212 --- [config-server] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-11-19T22:08:13.714+01:00  INFO 22212 --- [config-server] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.24]
+2026-11-19T22:08:13.762+01:00  INFO 22212 --- [config-server] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 926 ms
+2026-11-19T22:08:19.032+01:00  INFO 22212 --- [config-server] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoints beneath base path '/actuator'
+2026-11-19T22:08:19.077+01:00  INFO 22212 --- [config-server] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8888 (http) with context path '/'
+2026-11-19T22:08:19.087+01:00  INFO 22212 --- [config-server] [           main] c.t.c.ConfigServerApplication            : Started ConfigServerApplication in 6.648 seconds (process running for 7.025)
+2026-11-19T22:08:20.253+01:00  INFO 22212 --- [config-server] [nio-8888-exec-3] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-11-19T22:08:20.253+01:00  INFO 22212 --- [config-server] [nio-8888-exec-3] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-11-19T22:08:20.254+01:00  INFO 22212 --- [config-server] [nio-8888-exec-3] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-11-19T22:08:21.905+01:00  INFO 22212 --- [config-server] [nio-8888-exec-3] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property source: Config resource 'file [C:\Users\elman\AppData\Local\Temp\config-repo-13558682587521141216\ticketflow-config\application.yml]' via location 'file:/C:/Users/elman/AppData/Local/Temp/config-repo-13558682587521141216/ticketflow-config/'
+2026-11-19T22:08:36.731+01:00  INFO 22212 --- [config-server] [nio-8888-exec-1] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property source: Config resource 'file [C:\Users\elman\AppData\Local\Temp\config-repo-13558682587521141216\ticketflow-config\event-service.yml]' via location 'file:/C:/Users/elman/AppData/Local/Temp/config-repo-13558682587521141216/ticketflow-config/'
+2026-11-19T22:08:36.731+01:00  INFO 22212 --- [config-server] [nio-8888-exec-1] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property source: Config resource 'file [C:\Users\elman\AppData\Local\Temp\config-repo-13558682587521141216\ticketflow-config\application.yml]' via location 'file:/C:/Users/elman/AppData/Local/Temp/config-repo-13558682587521141216/ticketflow-config/'
+2026-11-19T22:09:06.820+01:00  INFO 22212 --- [config-server] [nio-8888-exec-4] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property source: Config resource 'file [C:\Users\elman\AppData\Local\Temp\config-repo-13558682587521141216\ticketflow-config\booking-service.yml]' via location 'file:/C:/Users/elman/AppData/Local/Temp/config-repo-13558682587521141216/ticketflow-config/'
+2026-11-19T22:09:06.820+01:00  INFO 22212 --- [config-server] [nio-8888-exec-4] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property source: Config resource 'file [C:\Users\elman\AppData\Local\Temp\config-repo-13558682587521141216\ticketflow-config\application.yml]' via location 'file:/C:/Users/elman/AppData/Local/Temp/config-repo-13558682587521141216/ticketflow-config/'
+2026-11-19T22:10:25.408+01:00  INFO 22212 --- [config-server] [nio-8888-exec-2] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property source: Config resource 'file [C:\Users\elman\AppData\Local\Temp\config-repo-13558682587521141216\ticketflow-config\event-service.yml]' via location 'file:/C:/Users/elman/AppData/Local/Temp/config-repo-13558682587521141216/ticketflow-config/'
+2026-11-19T22:10:25.408+01:00  INFO 22212 --- [config-server] [nio-8888-exec-2] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property source: Config resource 'file [C:\Users\elman\AppData\Local\Temp\config-repo-13558682587521141216\ticketflow-config\application.yml]' via location 'file:/C:/Users/elman/AppData/Local/Temp/config-repo-13558682587521141216/ticketflow-config/'
